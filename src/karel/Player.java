@@ -88,6 +88,8 @@ public class Player extends Actor {
         {
             Direction=4;
         }
+        
+        adjustPlayerImage();
     }
     
     /**

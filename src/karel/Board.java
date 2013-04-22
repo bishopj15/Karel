@@ -202,7 +202,7 @@ public class Board extends JPanel {
                 }
             }
             else if((item instanceof Player)){
-                karel.adjustPlayerImage();
+               
                 g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
             }
             
@@ -289,8 +289,7 @@ public class Board extends JPanel {
             }
             
             //turn face of player 90 degrees to the left
-            if (key == 'a') {
-                Image img = karel.getImage();
+            if (key == 'a') { 
                 
                 karel.SetDir(TURN_LEFT);
             } 
