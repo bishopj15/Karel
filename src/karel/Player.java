@@ -29,6 +29,7 @@ public class Player extends Actor {
         ImageIcon iia = new ImageIcon(loc);
         Image image = iia.getImage();
         this.setImage(image);
+ 
 
         Direction=1;
         NumberOfGems=0;

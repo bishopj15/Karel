@@ -15,9 +15,12 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
  /**
  *
@@ -45,6 +48,7 @@ public class Board extends JPanel {
     private boolean manualMode;
     private int boardHeight = 0;
     private int boardWidth = 0;
+    
     
     /**
      * Constructor
@@ -212,8 +216,23 @@ public class Board extends JPanel {
             }
             
             if (completed) {
-                g.setColor(new Color(0, 0, 0));
-                g.drawString("Completed", 25, 20);
+                URL loc = this.getClass().getResource("/karel/completed.png");
+                ImageIcon iia = new ImageIcon(loc);
+                Image mage = iia.getImage();
+                g.setColor(new Color(128, 128, 255));
+                g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                g.drawImage(mage, this.getWidth()/8, this.getHeight()/4, this);   
+            }
+            
+             if(crashed){
+                 URL loc = this.getClass().getResource("/karel/OHNO.png");
+                ImageIcon iia = new ImageIcon(loc);
+                Image mage = iia.getImage();
+                //System.out.println("WIN");
+                g.setColor(new Color(128, 128, 255));
+                g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                //g.drawString("Completed", 25, 20);
+                g.drawImage(mage, this.getWidth()/24, this.getHeight()/12, this);
             }
         }
        
@@ -321,6 +340,11 @@ public class Board extends JPanel {
             }
 
             repaint();
+            if(!manualMode){
+                pause();
+            }
+            
+            
         }
         
      
@@ -377,6 +401,7 @@ public class Board extends JPanel {
                 {
                     case 1://trying to move north
                         if (checkWallCollision(karel, TOP_COLLISION)) {
+                            crashed=true;
                             restartLevel(false);
                             return;
                         }
@@ -389,6 +414,7 @@ public class Board extends JPanel {
                         
                     case 2://trying to move east
                         if(checkWallCollision(karel, RIGHT_COLLISION)) {
+                            crashed=true;
                             restartLevel(false);
                             return;
                         }
@@ -401,6 +427,7 @@ public class Board extends JPanel {
                         
                     case 3://trying to move south
                         if (checkWallCollision(karel, BOTTOM_COLLISION)) {
+                            crashed=true;
                             restartLevel(false);
                             return;
                         }
@@ -412,6 +439,7 @@ public class Board extends JPanel {
                        }
                     case 4://trying to move west
                         if (checkWallCollision(karel, LEFT_COLLISION)) {
+                            crashed=true;
                             restartLevel(false);
                             return;
                         }
@@ -634,6 +662,21 @@ public class Board extends JPanel {
             tempString = tempString.concat("Number of Gems on Home: " + n + "\n");
             
             return tempString;
+     }
+     
+     public void setManualMode(boolean bool){
+         manualMode = bool;
+     }
+     
+     private void pause(){
+         try{
+             Thread.sleep(400);
+             
+         }
+         catch(InterruptedException e){
+             e.printStackTrace();
+         }
+         
      }
         
         

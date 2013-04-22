@@ -54,16 +54,51 @@ public class KarelFrame extends javax.swing.JFrame {
         
         currentLevelName = "maps/grid1.txt";
         
-        BoardPanel = new Board(currentLevelName);
+        BoardPanel = new ProgrammerMode(currentLevelName);
         
         BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
         
-        //add(BoardPanel);
+        //add(BoardPanel, -1);
+        
         ActionPanel.add(BoardPanel, -1);
+        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+        
+        ProgrammingTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+            
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                ProgrammingTabbedPaneStateChanged(evt);
+            }
+        });
         
         setLocationRelativeTo(null);
         setTitle("Karel the Robot");
         
+    }
+    
+    private void createNewPanel(){
+        int index = ProgrammingTabbedPane.getSelectedIndex();
+        
+        if(index == 0){
+            ExecuteButton.setEnabled(false);
+            ActionPanel.remove(BoardPanel);
+            ActionPanel.repaint();
+            BoardPanel = new ProgrammerMode(currentLevelName);
+            BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
+            BoardPanel.setManualMode(true);
+            ActionPanel.add(BoardPanel, -1);
+            PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());    
+        }
+       
+        if(index == 1){
+            ExecuteButton.setEnabled(true);
+            ActionPanel.remove(BoardPanel);
+            ActionPanel.repaint();
+            BoardPanel = new ProgrammerMode(currentLevelName);
+            BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
+            BoardPanel.setManualMode(false);
+            ActionPanel.add(BoardPanel, -1);
+            PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());    
+        }
     }
     
     /**
@@ -83,6 +118,8 @@ public class KarelFrame extends javax.swing.JFrame {
         PastePopout = new javax.swing.JMenuItem();
         ActionPanel = new javax.swing.JPanel();
         ProgramPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        PlayerInfoTextArea = new javax.swing.JTextArea();
         ProgrammingTabbedPane = new javax.swing.JTabbedPane();
         ManualPanel = new javax.swing.JPanel();
         GoButton = new javax.swing.JButton();
@@ -92,7 +129,7 @@ public class KarelFrame extends javax.swing.JFrame {
         GetButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         CodeTextArea = new javax.swing.JTextArea();
-        PlayerInfoLabel = new javax.swing.JLabel();
+        ExecuteButton = new javax.swing.JButton();
         StatusBarPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -147,6 +184,7 @@ public class KarelFrame extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        ActionPanel.setAutoscrolls(true);
         ActionPanel.setName(""); // NOI18N
 
         javax.swing.GroupLayout ActionPanelLayout = new javax.swing.GroupLayout(ActionPanel);
@@ -159,6 +197,11 @@ public class KarelFrame extends javax.swing.JFrame {
             ActionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        PlayerInfoTextArea.setColumns(20);
+        PlayerInfoTextArea.setRows(5);
+        PlayerInfoTextArea.setFocusable(false);
+        jScrollPane2.setViewportView(PlayerInfoTextArea);
 
         GoButton.setText("GO");
         GoButton.addActionListener(new java.awt.event.ActionListener() {
@@ -201,13 +244,13 @@ public class KarelFrame extends javax.swing.JFrame {
             ManualPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ManualPanelLayout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(LeftButton, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                .addComponent(LeftButton, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(ManualPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ManualPanelLayout.createSequentialGroup()
-                        .addComponent(GetButton, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                        .addComponent(GetButton, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(RightButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(RightButton, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE))
                     .addGroup(ManualPanelLayout.createSequentialGroup()
                         .addGroup(ManualPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(PutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -246,7 +289,13 @@ public class KarelFrame extends javax.swing.JFrame {
 
         ProgrammingTabbedPane.addTab("Programming", jScrollPane1);
 
-        PlayerInfoLabel.setText("jLabel2");
+        ExecuteButton.setText("Execute");
+        ExecuteButton.setEnabled(false);
+        ExecuteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExecuteButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ProgramPanelLayout = new javax.swing.GroupLayout(ProgramPanel);
         ProgramPanel.setLayout(ProgramPanelLayout);
@@ -254,9 +303,13 @@ public class KarelFrame extends javax.swing.JFrame {
             ProgramPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ProgramPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(ProgramPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(PlayerInfoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ProgrammingTabbedPane))
+                .addGroup(ProgramPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ProgrammingTabbedPane)
+                    .addComponent(jScrollPane2))
+                .addContainerGap())
+            .addGroup(ProgramPanelLayout.createSequentialGroup()
+                .addGap(87, 87, 87)
+                .addComponent(ExecuteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ProgramPanelLayout.setVerticalGroup(
@@ -264,9 +317,11 @@ public class KarelFrame extends javax.swing.JFrame {
             .addGroup(ProgramPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ProgrammingTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(PlayerInfoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ExecuteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel1.setText("jLabel1");
@@ -278,7 +333,7 @@ public class KarelFrame extends javax.swing.JFrame {
             .addGroup(StatusBarPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(2343, Short.MAX_VALUE))
+                .addContainerGap(674, Short.MAX_VALUE))
         );
         StatusBarPanelLayout.setVerticalGroup(
             StatusBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -397,15 +452,15 @@ public class KarelFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(ProgramPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(ActionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(StatusBarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addComponent(ActionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addComponent(StatusBarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -414,7 +469,7 @@ public class KarelFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ActionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ProgramPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(StatusBarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -483,7 +538,7 @@ public class KarelFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_SaveAsMenuItemActionPerformed
 
     private void OpenMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenMenuItemActionPerformed
-        
+        ProgrammingTabbedPane.setSelectedIndex(1);
         FileOperations fo = new FileOperations(CodeTextArea.getText(), currentFileName);
         
         //Create a file chooser
@@ -559,43 +614,48 @@ public class KarelFrame extends javax.swing.JFrame {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = chooser.getSelectedFile();
                 currentLevelName = file.getAbsolutePath();
-                ActionPanel.remove(BoardPanel);
-                ActionPanel.repaint();
-                BoardPanel = new Board(currentLevelName);
-                BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
-                ActionPanel.add(BoardPanel, -1);
+                createNewPanel();
                 
             } 
     }//GEN-LAST:event_LoadLevelMenuItemActionPerformed
 
     private void RestartLevelMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RestartLevelMenuItemActionPerformed
-        ActionPanel.remove(BoardPanel);
-        ActionPanel.repaint();
-        BoardPanel = new Board(currentLevelName);
-        BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
-        ActionPanel.add(BoardPanel, -1);
+        createNewPanel();
     }//GEN-LAST:event_RestartLevelMenuItemActionPerformed
 
     private void GoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoButtonActionPerformed
         BoardPanel.keyPressed('w');
+        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
     }//GEN-LAST:event_GoButtonActionPerformed
 
     private void LeftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeftButtonActionPerformed
         BoardPanel.keyPressed('a');
+        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
     }//GEN-LAST:event_LeftButtonActionPerformed
 
     private void RightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RightButtonActionPerformed
         BoardPanel.keyPressed('d');
+        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
     }//GEN-LAST:event_RightButtonActionPerformed
 
     private void GetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GetButtonActionPerformed
         BoardPanel.keyPressed('e');
+        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
     }//GEN-LAST:event_GetButtonActionPerformed
 
     private void PutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PutButtonActionPerformed
         BoardPanel.keyPressed('s');
+        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
     }//GEN-LAST:event_PutButtonActionPerformed
 
+    private void ExecuteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExecuteButtonActionPerformed
+        BoardPanel.setUserCode(CodeTextArea.getText());
+        BoardPanel.Start();
+    }//GEN-LAST:event_ExecuteButtonActionPerformed
+
+    private void ProgrammingTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt){
+        createNewPanel();
+    }
     /**
      * @param args the command line arguments
      */
@@ -639,7 +699,7 @@ public class KarelFrame extends javax.swing.JFrame {
     
     
     
-    private Board BoardPanel;
+    private ProgrammerMode BoardPanel;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ActionPanel;
     private javax.swing.JTextArea CodeTextArea;
@@ -651,6 +711,7 @@ public class KarelFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem DeletePopout;
     private javax.swing.JMenu EditMenu;
     private javax.swing.JPopupMenu EditPopupMenu;
+    private javax.swing.JButton ExecuteButton;
     private javax.swing.JMenu FileMenu;
     private javax.swing.JButton GetButton;
     private javax.swing.JButton GoButton;
@@ -662,7 +723,7 @@ public class KarelFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem OpenMenuItem;
     private javax.swing.JMenuItem PasteMenuItem;
     private javax.swing.JMenuItem PastePopout;
-    private javax.swing.JLabel PlayerInfoLabel;
+    private javax.swing.JTextArea PlayerInfoTextArea;
     private javax.swing.JPanel ProgramPanel;
     private javax.swing.JTabbedPane ProgrammingTabbedPane;
     private javax.swing.JButton PutButton;
@@ -676,5 +737,6 @@ public class KarelFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
