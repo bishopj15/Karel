@@ -13,12 +13,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 /**
  *
  * @author Gonzo
  */
-public class ProgrammerMode extends Board {
+public class ProgrammerMode {
     private final String TURNLEFT = "LEFT";
     private final String TURNRIGHT = "RIGHT";
     private final String FORWARD = "GO";
@@ -43,13 +45,17 @@ public class ProgrammerMode extends Board {
     private ArrayList <String> instruction = new ArrayList();
     private String UsersProgram;
     private Player karel;
+    private ArrayList <Character> keyInstructions = new ArrayList();
+    private Board programBoard;
    
     
     
-    public ProgrammerMode(String file){
-        super(file);  
+    public ProgrammerMode(String uCode, Board tempBoard){  
+        programBoard = new Board(tempBoard.getFileName());
+        UsersProgram = uCode;
         SetReservedWord();
         setSensors();
+        ConvertToArrayList();
         
     }
     
@@ -291,38 +297,39 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
       
       System.out.println(instr.get(0));
        
-      while(i <instr.size() && !ReturnCrashState()){
+      while(i <instr.size() && !programBoard.ReturnCrashState()){
         String instruct=instr.get(i);
         String [] tempStrArray = instruct.split(" ");
         //System.out.println(instruct);
         
         
         if(tempStrArray[0].endsWith(TURNLEFT)){
-            keyPressed('a');
+            keyInstructions.add('a');
+            programBoard.keyPressed('a');
             i++;
         }
         
         else if(tempStrArray[0].endsWith(TURNRIGHT)){
-            
-             keyPressed('d');
+             keyInstructions.add('d');
+             programBoard.keyPressed('d');
              i++;
         }
         
         else if(tempStrArray[0].endsWith(FORWARD)){
-            
-             keyPressed('w');
+             keyInstructions.add('w');
+             programBoard.keyPressed('w');
              i++;
         }
         
         else if(tempStrArray[0].endsWith(PICKUP)){
-            
-             keyPressed('e');
+             keyInstructions.add('e');
+             programBoard.keyPressed('e');
              i++;
         }
         
         else if(tempStrArray[0].endsWith(PLACE)){
-            
-             keyPressed('s');
+             keyInstructions.add('s');
+             programBoard.keyPressed('s');
              i++;
         }
         
@@ -354,7 +361,7 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
             if(tempStrArray[1].equals(NOT)){
                 
                 if(tempStrArray[2].equals(WALL)){
-                    if(!wallSensor()){
+                    if(!programBoard.wallSensor()){
                         Execution(ifInstructions, tabCount);
                         usedIF = true;
                     }
@@ -363,7 +370,7 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
                 }
 
                 else if(tempStrArray[2].equals(GEM)){
-                    if(!gemSensor()){
+                    if(!programBoard.gemSensor()){
                         Execution(ifInstructions, tabCount);
                         usedIF = true;
                     }
@@ -371,7 +378,7 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
                 }
 
                 else if(tempStrArray[2].equals(EMPTY)){
-                    if(!emptySensor()){
+                    if(!programBoard.emptySensor()){
                         Execution(ifInstructions, tabCount);
                         usedIF = true;
                     }
@@ -379,7 +386,7 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
                 }
                 
                 else if(tempStrArray[2].equals(HOME)){
-                    if(!homeSensor()){
+                    if(!programBoard.homeSensor()){
                         Execution(ifInstructions, tabCount);
                         usedIF = true;
                     }
@@ -387,7 +394,7 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
                 }
                 
                 else if(tempStrArray[2].equals(NORTH)){
-                    if(!northSensor()){
+                    if(!programBoard.northSensor()){
                         Execution(ifInstructions, tabCount);
                         usedIF = true;
                     }
@@ -397,7 +404,7 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
             else{
                 if(tempStrArray[1].equals(WALL)){
                 
-                    if(wallSensor()){
+                    if(programBoard.wallSensor()){
                         Execution(ifInstructions, tabCount);
                         usedIF = true;
                     }
@@ -406,7 +413,7 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
                 }
 
                 else if(tempStrArray[1].equals(GEM)){
-                    if(gemSensor()){
+                    if(programBoard.gemSensor()){
                         Execution(ifInstructions, tabCount);
                         usedIF = true;
                     }
@@ -414,7 +421,7 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
                 }
 
                 else if(tempStrArray[1].equals(EMPTY)){
-                    if(emptySensor()){
+                    if(programBoard.emptySensor()){
                         Execution(ifInstructions, tabCount);
                         usedIF = true;
                     }
@@ -423,7 +430,7 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
                 }
                 
                 else if(tempStrArray[1].equals(HOME)){
-                    if(homeSensor()){
+                    if(programBoard.homeSensor()){
                         Execution(ifInstructions, tabCount);
                         usedIF = true;
                     }
@@ -431,7 +438,7 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
                 }
                 
                 else if(tempStrArray[1].equals(NORTH)){
-                    if(northSensor()){
+                    if(programBoard.northSensor()){
                         Execution(ifInstructions, tabCount);
                         usedIF = true;
                     }
@@ -551,7 +558,7 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
             if(tempStrArray[1].equals(NOT)){
                 
                 if(tempStrArray[2].equals(WALL)){
-                    while(!wallSensor()){
+                    while(!programBoard.wallSensor()){
                         Execution(ifInstructions, tabCount);
                     }
                     tabCount--;
@@ -559,14 +566,14 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
                 }
 
                 else if(tempStrArray[2].equals(GEM)){
-                    while(!gemSensor()){
+                    while(!programBoard.gemSensor()){
                         Execution(ifInstructions, tabCount);
                     }
                     tabCount--;
                 }
 
                 else if(tempStrArray[2].equals(EMPTY)){
-                    while(!emptySensor()){
+                    while(!programBoard.emptySensor()){
                         Execution(ifInstructions, tabCount);  
                     }
                     
@@ -574,14 +581,14 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
                 }
                 
                 else if(tempStrArray[2].equals(HOME)){
-                    while(!homeSensor()){
+                    while(!programBoard.homeSensor()){
                         Execution(ifInstructions, tabCount);
                     }
                     tabCount--;
                 }
                 
                 else if(tempStrArray[2].equals(NORTH)){
-                    while(!northSensor()){
+                    while(!programBoard.northSensor()){
                         Execution(ifInstructions, tabCount);
                     }
                     tabCount--;
@@ -590,7 +597,7 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
             else{
                 if(tempStrArray[1].equals(WALL)){
                 
-                    while(wallSensor()){
+                    while(programBoard.wallSensor()){
                         Execution(ifInstructions, tabCount);
                     }
                     tabCount--;
@@ -599,14 +606,14 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
 
                 else if(tempStrArray[1].equals(GEM)){
                     
-                    while(gemSensor()){
+                    while(programBoard.gemSensor()){
                         Execution(ifInstructions, tabCount);
                     }
                     tabCount--;
                 }
 
                 else if(tempStrArray[1].equals(EMPTY)){
-                    while(emptySensor()){
+                    while(programBoard.emptySensor()){
                         Execution(ifInstructions, tabCount);
                     } 
                     tabCount--;
@@ -614,14 +621,14 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
                 
                 else if(tempStrArray[1].equals(HOME)){
                     
-                    while(homeSensor()){
+                    while(programBoard.homeSensor()){
                         Execution(ifInstructions, tabCount);
                     }
                     tabCount--;
                 }
                 
                 else if(tempStrArray[1].equals(NORTH)){
-                    while(northSensor()){
+                    while(programBoard.northSensor()){
                         Execution(ifInstructions, tabCount);
                     }
                     tabCount--;
@@ -641,10 +648,9 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
 
     }
     
-    public void setUserCode(String uCode){
-        UsersProgram = uCode;
-        ConvertToArrayList();
-        
+    
+    public ArrayList<Character> getKeyInstructions(){
+        return keyInstructions;
     }
     
         /**
@@ -655,8 +661,7 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
         {
             Execution(instruction, 0);
         }
-        
-        
+
      }
 
 }

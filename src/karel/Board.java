@@ -65,6 +65,10 @@ public class Board extends JPanel {
         
     }
     
+    public String getFileName(){
+        return fileName;
+    }
+    
     public int getBoardWidth() {
         return boardWidth;
     }
@@ -340,9 +344,6 @@ public class Board extends JPanel {
             }
 
             repaint();
-            if(!manualMode){
-                pause();
-            }
             
             
         }
