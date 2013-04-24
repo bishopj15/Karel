@@ -18,6 +18,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -632,52 +634,68 @@ public class KarelFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_RestartLevelMenuItemActionPerformed
 
     private void GoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoButtonActionPerformed
-        BoardPanel.keyPressed('w');
-        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+         pressAKey('w');
     }//GEN-LAST:event_GoButtonActionPerformed
 
     private void LeftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeftButtonActionPerformed
-        BoardPanel.keyPressed('a');
-        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+        pressAKey('a');
     }//GEN-LAST:event_LeftButtonActionPerformed
 
     private void RightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RightButtonActionPerformed
-        BoardPanel.keyPressed('d');
-        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+        pressAKey('d');
     }//GEN-LAST:event_RightButtonActionPerformed
 
     private void GetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GetButtonActionPerformed
-        BoardPanel.keyPressed('e');
-        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+        pressAKey('e');
     }//GEN-LAST:event_GetButtonActionPerformed
 
     private void PutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PutButtonActionPerformed
-        BoardPanel.keyPressed('s');
-        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+        pressAKey('s');
+        
     }//GEN-LAST:event_PutButtonActionPerformed
 
     private void ExecuteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExecuteButtonActionPerformed
         ProgrammerMode pm = new ProgrammerMode(CodeTextArea.getText(), BoardPanel);
-       // ArrayList<Character> keyChars = new ArrayList();
+        
+        
         pm.Start();
         keyChars = pm.getKeyInstructions();
         
+        
         ActionListener taskPerformer = new ActionListener() {
              int i;
+             
+            @Override
             public void actionPerformed(ActionEvent evt) {
-              
-              BoardPanel.keyPressed(keyChars.get(i));
-              PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
-              i++;
+              if(!BoardPanel.checkCompleted()){
+                  BoardPanel.keyPressed(keyChars.get(i));
+                  PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+                  i++;
+              }
+              else{
+                  i=0;
+                  timer.stop();
+              }
+                
             }
         };
-      new Timer(500, taskPerformer).start();
+
+       timer = new Timer(500, taskPerformer); 
+      
+      
+      if(!keyChars.isEmpty()){
+         timer.start();
+       /*  for(int i=0; i<keyChars.size(); i++){
+            pressAKey(keyChars.get(i));
+            
+        } */
+          
+      }
+      else{
+          PlayerInfoTextArea.setText(pm.getErrorStatements());
+      }
         
-      /*  for(int i=0; i<keyChars.size(); i++){
-            System.out.println(keyChars.get(i));
-            BoardPanel.keyPressed(keyChars.get(i));
-            PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
-        }*/
+        
         
          
     }//GEN-LAST:event_ExecuteButtonActionPerformed
@@ -688,6 +706,12 @@ public class KarelFrame extends javax.swing.JFrame {
     
     public JTextArea getInfoArea(){
         return PlayerInfoTextArea;
+    }
+    
+    private void pressAKey(char key){
+        BoardPanel.keyPressed(key);
+        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+        
     }
     /**
      * @param args the command line arguments
@@ -728,11 +752,10 @@ public class KarelFrame extends javax.swing.JFrame {
     final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
     private String currentLevelName = new String();
     ArrayList<Character> keyChars = new ArrayList();
-    
-    
-    
-    
     private Board BoardPanel;
+    private Timer timer;
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ActionPanel;
     private javax.swing.JTextArea CodeTextArea;

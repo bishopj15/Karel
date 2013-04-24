@@ -344,6 +344,7 @@ public class Board extends JPanel {
             }
 
             repaint();
+           
             
             
         }

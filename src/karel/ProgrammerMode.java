@@ -36,17 +36,13 @@ public class ProgrammerMode {
     private final String GEM = "GEM";
     private final String WALL = "WALL";
     private final String EMPTY = "EMPTY";
-    private final String [] labels= new String [20];
-    private final String[] vars=new String [30];
-    private final String[] reserved= new String [30];
-    private final String[] conditions= new String [15];
-    private final String[] special= new String [5];
+    private final String[] reserved= new String [10];
     private final String[] sensors = new String[5];
     private ArrayList <String> instruction = new ArrayList();
     private String UsersProgram;
-    private Player karel;
     private ArrayList <Character> keyInstructions = new ArrayList();
     private Board programBoard;
+    private String ErrorStatements = "There was a error on line: ";
    
     
     
@@ -74,10 +70,7 @@ public class ProgrammerMode {
         reserved[7]="NOT";
         reserved[8]="WHILE";
         reserved[9]="ELSE";
-        for(int i=10;i<20;i++)
-        {
-            reserved[i]=" ";
-        }
+        
     }
     
     /**
@@ -162,6 +155,8 @@ public class ProgrammerMode {
             }
             
             else{
+                ErrorStatements = ErrorStatements.concat(line + "\n");
+                ErrorStatements = ErrorStatements.concat("Invalid Syntax");
                 break;
             }
          }
@@ -201,13 +196,13 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
         }
         
         else if(Statement.length < 2){
-            System.out.println("There was a error on line: " + line);
-            System.out.println("Too few argument");
+            ErrorStatements = ErrorStatements.concat(line + "\n");
+            ErrorStatements = ErrorStatements.concat("Too few argument");
         }
         
         else if(Statement.length > 3){
-            System.out.println("There was a error on line: " + line);
-            System.out.println("Too many argument");
+            ErrorStatements = ErrorStatements.concat(line + "\n");
+            ErrorStatements = ErrorStatements.concat("Too many argument");
         }
        
         return Error;                   
@@ -222,20 +217,20 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
 
             }
             catch(NumberFormatException e){
-                System.out.println("There was a error on line: " + line);
-                System.out.println("Expected a numeric value after repeat");
+                ErrorStatements = ErrorStatements.concat(line + "\n");
+                ErrorStatements = ErrorStatements.concat("Expected a numeric value after repeat");
                 return true;
             }
         }
         
         else if(Statement.length <2){
-            System.out.println("There was a error on line: " + line);
-            System.out.println("Expected a numeric value after repeat");
+            ErrorStatements = ErrorStatements.concat(line + "\n");
+            ErrorStatements = ErrorStatements.concat("Expected a numeric value after repeat");
         } 
         
         else if(Statement.length >2){
-            System.out.println("There was a error on line: " + line);
-            System.out.println("Too many arguments for repeat");
+            ErrorStatements = ErrorStatements.concat(line + "\n");
+            ErrorStatements = ErrorStatements.concat("Too many arguments for repeat");
         } 
         return Error;
     }
@@ -265,13 +260,13 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
           }
         
         else if(Statement.length < 2){
-            System.out.println("There was a error on line: " + line);
-            System.out.println("Too few argument");
+            ErrorStatements = ErrorStatements.concat(line + "\n");
+            ErrorStatements = ErrorStatements.concat("Too few argument");
         }
         
         else if(Statement.length > 3){
-            System.out.println("There was a error on line: " + line);
-            System.out.println("Too many argument");
+            ErrorStatements = ErrorStatements.concat(line + "\n");
+            ErrorStatements = ErrorStatements.concat("Too many argument");
         }
         
          return Error;
@@ -282,6 +277,11 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
         if (Statement.length == 1 ){
             Error = false;
         }
+        else{
+            ErrorStatements = ErrorStatements.concat(line + "\n");
+            ErrorStatements = ErrorStatements.concat("Too many argument");
+        }
+        
         return Error;
     }
     
@@ -295,7 +295,7 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
       boolean usedIF = false;
       boolean encounteredIF = false;
       
-      System.out.println(instr.get(0));
+     // System.out.println(instr.get(0));
        
       while(i <instr.size() && !programBoard.ReturnCrashState()){
         String instruct=instr.get(i);
@@ -651,6 +651,10 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
     
     public ArrayList<Character> getKeyInstructions(){
         return keyInstructions;
+    }
+    
+    public String getErrorStatements(){
+        return ErrorStatements;
     }
     
         /**
