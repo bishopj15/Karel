@@ -25,15 +25,29 @@ public class Wall extends Actor {
     }
     
     private void determineImage(int thm){
-        if(thm == 1){
-            ImageIcon iia = new ImageIcon("skins/mario/wall.png");
-            Image image = iia.getImage();
-            this.setImage(image);
-        }
-        else{
-            ImageIcon iia = new ImageIcon("skins/default/wall.png");
-            Image image = iia.getImage();
-            this.setImage(image);
+        ImageIcon iia;
+        Image image;
+        
+         switch(thm){
+            case 1:
+            case 4:
+            case 5:
+            case 6:
+                iia = new ImageIcon("skins/mario/wall.png");
+                image = iia.getImage();
+                this.setImage(image);
+                break;
+            case 2:
+            case 3:
+                iia = new ImageIcon("skins/batman/stonewall.png");
+                image = iia.getImage();
+                this.setImage(image);
+                break;
+            default:
+                iia = new ImageIcon("skins/default/wall.png");
+                image = iia.getImage();
+                this.setImage(image);
+                break;
         }
      }
     

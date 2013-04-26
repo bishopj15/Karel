@@ -148,7 +148,14 @@ public class KarelFrame extends javax.swing.JFrame {
         FunMenu = new javax.swing.JMenu();
         ThemeMenu = new javax.swing.JMenu();
         DefaultMenuItem = new javax.swing.JMenuItem();
+        MarioMenu = new javax.swing.JMenu();
         MarioMenuItem = new javax.swing.JMenuItem();
+        LuigiMenuItem = new javax.swing.JMenuItem();
+        YoshiMenuItem = new javax.swing.JMenuItem();
+        ToadMenuItem = new javax.swing.JMenuItem();
+        Batman = new javax.swing.JMenu();
+        Batman1MenuItem = new javax.swing.JMenuItem();
+        Batman2MenuItem = new javax.swing.JMenuItem();
 
         CopyPopout.setText("Copy");
         CopyPopout.addActionListener(new java.awt.event.ActionListener() {
@@ -509,13 +516,61 @@ public class KarelFrame extends javax.swing.JFrame {
         });
         ThemeMenu.add(DefaultMenuItem);
 
+        MarioMenu.setText("Mario");
+
         MarioMenuItem.setText("Mario");
         MarioMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MarioMenuItemActionPerformed(evt);
             }
         });
-        ThemeMenu.add(MarioMenuItem);
+        MarioMenu.add(MarioMenuItem);
+
+        LuigiMenuItem.setText("Luigi");
+        LuigiMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LuigiMenuItemActionPerformed(evt);
+            }
+        });
+        MarioMenu.add(LuigiMenuItem);
+
+        YoshiMenuItem.setText("Yoshi");
+        YoshiMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                YoshiMenuItemActionPerformed(evt);
+            }
+        });
+        MarioMenu.add(YoshiMenuItem);
+
+        ToadMenuItem.setText("Toad");
+        ToadMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ToadMenuItemActionPerformed(evt);
+            }
+        });
+        MarioMenu.add(ToadMenuItem);
+
+        ThemeMenu.add(MarioMenu);
+
+        Batman.setText("Batman");
+
+        Batman1MenuItem.setText("Batman 1");
+        Batman1MenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Batman1MenuItemActionPerformed(evt);
+            }
+        });
+        Batman.add(Batman1MenuItem);
+
+        Batman2MenuItem.setText("Batman 2");
+        Batman2MenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Batman2MenuItemActionPerformed(evt);
+            }
+        });
+        Batman.add(Batman2MenuItem);
+
+        ThemeMenu.add(Batman);
 
         FunMenu.add(ThemeMenu);
 
@@ -843,15 +898,40 @@ public class KarelFrame extends javax.swing.JFrame {
         PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
     }//GEN-LAST:event_Map6MenuItemActionPerformed
 
+    private void DefaultMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DefaultMenuItemActionPerformed
+        BoardPanel.setTheme(DEFAULT);
+        BoardPanel.repaint();
+    }//GEN-LAST:event_DefaultMenuItemActionPerformed
+
+    private void Batman1MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Batman1MenuItemActionPerformed
+        BoardPanel.setTheme(BATMAN1);
+        BoardPanel.repaint();
+    }//GEN-LAST:event_Batman1MenuItemActionPerformed
+
+    private void Batman2MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Batman2MenuItemActionPerformed
+        BoardPanel.setTheme(BATMAN2);
+        BoardPanel.repaint();
+    }//GEN-LAST:event_Batman2MenuItemActionPerformed
+
     private void MarioMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MarioMenuItemActionPerformed
         BoardPanel.setTheme(MARIO);
         BoardPanel.repaint();
     }//GEN-LAST:event_MarioMenuItemActionPerformed
 
-    private void DefaultMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DefaultMenuItemActionPerformed
-        BoardPanel.setTheme(DEFAULT);
+    private void LuigiMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LuigiMenuItemActionPerformed
+        BoardPanel.setTheme(LUIGI);
         BoardPanel.repaint();
-    }//GEN-LAST:event_DefaultMenuItemActionPerformed
+    }//GEN-LAST:event_LuigiMenuItemActionPerformed
+
+    private void YoshiMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YoshiMenuItemActionPerformed
+        BoardPanel.setTheme(YOSHI);
+        BoardPanel.repaint();
+    }//GEN-LAST:event_YoshiMenuItemActionPerformed
+
+    private void ToadMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ToadMenuItemActionPerformed
+        BoardPanel.setTheme(TOAD);
+        BoardPanel.repaint();
+    }//GEN-LAST:event_ToadMenuItemActionPerformed
 
     private void ProgrammingTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt){
         createNewPanel();
@@ -911,10 +991,18 @@ public class KarelFrame extends javax.swing.JFrame {
     private int theme = 0;
     private final int MARIO = 1;
     private final int DEFAULT = 0;
+    private final int BATMAN1 = 2;
+    private final int  BATMAN2 = 3;
+    private final int  LUIGI = 4;
+    private final int  YOSHI = 5;
+    private final int  TOAD = 6;
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ActionPanel;
+    private javax.swing.JMenu Batman;
+    private javax.swing.JMenuItem Batman1MenuItem;
+    private javax.swing.JMenuItem Batman2MenuItem;
     private javax.swing.JTextArea CodeTextArea;
     private javax.swing.JMenuItem CopyMenuItem;
     private javax.swing.JMenuItem CopyPopout;
@@ -933,6 +1021,7 @@ public class KarelFrame extends javax.swing.JFrame {
     private javax.swing.JButton LeftButton;
     private javax.swing.JMenu LevelMenu;
     private javax.swing.JMenuItem LoadLevelMenuItem;
+    private javax.swing.JMenuItem LuigiMenuItem;
     private javax.swing.JPanel ManualPanel;
     private javax.swing.JMenuItem Map1MenuItem;
     private javax.swing.JMenuItem Map2MenuItem;
@@ -941,6 +1030,7 @@ public class KarelFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem Map5MenuItem;
     private javax.swing.JMenuItem Map6MenuItem;
     private javax.swing.JMenu MapsMenu;
+    private javax.swing.JMenu MarioMenu;
     private javax.swing.JMenuItem MarioMenuItem;
     private javax.swing.JMenuItem NewMenuItem;
     private javax.swing.JMenuItem OpenMenuItem;
@@ -956,6 +1046,8 @@ public class KarelFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem SaveMenuItem;
     private javax.swing.JPanel StatusBarPanel;
     private javax.swing.JMenu ThemeMenu;
+    private javax.swing.JMenuItem ToadMenuItem;
+    private javax.swing.JMenuItem YoshiMenuItem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollBar jScrollBar1;

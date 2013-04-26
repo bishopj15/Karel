@@ -25,9 +25,9 @@ public class Player extends Actor {
      */
     public Player(int x, int y, int th) {
         super(x, y, th);
-        determineImage(th);
-        Direction=1;
+        Direction=2;
         NumberOfGems=0;
+        adjustPlayerImage();
     }
     /**
      * Adjusts the player's position 
@@ -98,34 +98,8 @@ public class Player extends Actor {
         return Direction;
     }
     
-    public void adjustPlayerImage(){
+    private void adjustPlayerImage(){
         switch(getThemeValue()){
-            case 0:
-                if(Direction == 1){
-                    ImageIcon iia = new ImageIcon("skins/default/player.png");
-                    Image image = iia.getImage();
-                    this.setImage(image);
-                }
-
-                else if(Direction == 2){
-                    ImageIcon iia = new ImageIcon("skins/default/player2.png");
-                    Image image = iia.getImage();
-                    this.setImage(image);
-                }
-
-                else if(Direction == 3){
-                    ImageIcon iia = new ImageIcon("skins/default/player3.png");
-                    Image image = iia.getImage();
-                    this.setImage(image);
-                }
-
-                else if(Direction == 4){
-                    ImageIcon iia = new ImageIcon("skins/default/player4.png");
-                    Image image = iia.getImage();
-                    this.setImage(image);
-                }
-                break;
-                
             case 1:
                 if(Direction == 1){
                     ImageIcon iia = new ImageIcon("skins/mario/marioBack.png");
@@ -151,27 +125,139 @@ public class Player extends Actor {
                     this.setImage(image);
                 }
                 break;
+                case 2:
+                case 3:
+                if(Direction == 1){
+                    ImageIcon iia = new ImageIcon("skins/batman/batmanback.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 2){
+                    ImageIcon iia = new ImageIcon("skins/batman/batmanright.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 3){
+                    ImageIcon iia = new ImageIcon("skins/batman/batmanfront.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 4){
+                    ImageIcon iia = new ImageIcon("skins/batman/batmanleft.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+                break;
+            case 4:
+                if(Direction == 1){
+                    ImageIcon iia = new ImageIcon("skins/mario/luigiback.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 2){
+                    ImageIcon iia = new ImageIcon("skins/mario/luigiright.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 3){
+                    ImageIcon iia = new ImageIcon("skins/mario/luigifront.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 4){
+                    ImageIcon iia = new ImageIcon("skins/mario/luigileft.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+                break;
+            case 5:
+                if(Direction == 1){
+                    ImageIcon iia = new ImageIcon("skins/mario/yoshiback.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 2){
+                    ImageIcon iia = new ImageIcon("skins/mario/yoshiright.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 3){
+                    ImageIcon iia = new ImageIcon("skins/mario/yoshifront.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 4){
+                    ImageIcon iia = new ImageIcon("skins/mario/yoshileft.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+                break;
+            case 6:
+                if(Direction == 1){
+                    ImageIcon iia = new ImageIcon("skins/mario/toadback.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 2){
+                    ImageIcon iia = new ImageIcon("skins/mario/toadright.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 3){
+                    ImageIcon iia = new ImageIcon("skins/mario/toadfront.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 4){
+                    ImageIcon iia = new ImageIcon("skins/mario/toadleft.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+                break;
             default:
+                if(Direction == 1){
+                    ImageIcon iia = new ImageIcon("skins/default/player.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 2){
+                    ImageIcon iia = new ImageIcon("skins/default/player2.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 3){
+                    ImageIcon iia = new ImageIcon("skins/default/player3.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 4){
+                    ImageIcon iia = new ImageIcon("skins/default/player4.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
                 break;
         }//end switch 
     }
     
-    private void determineImage(int thm){
-        if(thm == 1){
-            ImageIcon iia = new ImageIcon("skins/mario/marioBack.png");
-            Image image = iia.getImage();
-            this.setImage(image);
-        }
-        else{
-            ImageIcon iia = new ImageIcon("skins/default/player.png");
-            Image image = iia.getImage();
-            this.setImage(image);
-        }
-     }
     
     public void changeTheme(int th){
          setThemeValue(th);
-         determineImage(th);
+         adjustPlayerImage();
      }
     
 }

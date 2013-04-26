@@ -75,16 +75,35 @@ public class Gems extends Actor {
     }
     
     private void determineImage(int thm){
-        if(thm == 1){
-            ImageIcon iia = new ImageIcon("skins/mario/coin.png");
-            Image image = iia.getImage();
-            this.setImage(image);
+        ImageIcon iia;
+        Image image;
+        
+         switch(thm){
+            case 1:
+            case 4:
+            case 5:
+            case 6:
+                iia = new ImageIcon("skins/mario/coin.png");
+                image = iia.getImage();
+                this.setImage(image);
+                break;
+            case 2:
+                iia = new ImageIcon("skins/batman/jokerface.png");
+                image = iia.getImage();
+                this.setImage(image);
+                break;
+            case 3:
+                iia = new ImageIcon("skins/batman/batsignal.png");
+                image = iia.getImage();
+                this.setImage(image);
+                break;
+            default:
+                iia = new ImageIcon("skins/default/gem.png");
+                image = iia.getImage();
+                this.setImage(image);
+                break;
         }
-        else{
-            ImageIcon iia = new ImageIcon("skins/default/gem.png");
-            Image image = iia.getImage();
-            this.setImage(image);
-        }
+        
      }
     
     public void changeTheme(int th){
