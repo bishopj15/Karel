@@ -19,13 +19,11 @@ public class Gems extends Actor {
       * Constructor 
       * @param x Starting position on x axis
       * @param y Starting position on y axis
+      * @param th Theme of the actor
       */
-     public Gems(int x, int y) {
-        super(x, y);       
-        URL loc = this.getClass().getResource("/karel/gem.jpg");
-        ImageIcon iia = new ImageIcon(loc);
-        Image image = iia.getImage();
-        this.setImage(image);
+     public Gems(int x, int y, int th) {
+        super(x, y, th);  
+        determineImage(th);
         
         pickup=false;
         onHome=false;
@@ -75,5 +73,22 @@ public class Gems extends Actor {
         this.setX(nx);
         this.setY(ny);
     }
-
+    
+    private void determineImage(int thm){
+        if(thm == 1){
+            ImageIcon iia = new ImageIcon("skins/mario/coin.png");
+            Image image = iia.getImage();
+            this.setImage(image);
+        }
+        else{
+            ImageIcon iia = new ImageIcon("skins/default/gem.png");
+            Image image = iia.getImage();
+            this.setImage(image);
+        }
+     }
+    
+    public void changeTheme(int th){
+         setThemeValue(th);
+         determineImage(th);
+     }
 }

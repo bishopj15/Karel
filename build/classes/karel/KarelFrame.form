@@ -48,7 +48,7 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="FileMenu">
           <Properties>
-            <Property name="text" type="java.lang.String" value="File"/>
+            <Property name="text" type="java.lang.String" value="Code"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="NewMenuItem">
@@ -155,7 +155,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="LoadLevelMenuItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Load"/>
+                <Property name="text" type="java.lang.String" value="Load From File"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LoadLevelMenuItemActionPerformed"/>
@@ -169,11 +169,91 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RestartLevelMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
+            <Menu class="javax.swing.JMenu" name="MapsMenu">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jMenuItem3"/>
+                <Property name="text" type="java.lang.String" value="Maps"/>
               </Properties>
-            </MenuItem>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="Map1MenuItem">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Map 1"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Map1MenuItemActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="Map2MenuItem">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Map 2"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Map2MenuItemActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="Map3MenuItem">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Map 3"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Map3MenuItemActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="Map4MenuItem">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Map 4"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Map4MenuItemActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="Map5MenuItem">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Map 5"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Map5MenuItemActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="Map6MenuItem">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Map 6"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Map6MenuItemActionPerformed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="FunMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Fun"/>
+          </Properties>
+          <SubComponents>
+            <Menu class="javax.swing.JMenu" name="ThemeMenu">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Themes"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="DefaultMenuItem">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Default"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DefaultMenuItemActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="MarioMenuItem">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Mario"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MarioMenuItemActionPerformed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
           </SubComponents>
         </Menu>
       </SubComponents>

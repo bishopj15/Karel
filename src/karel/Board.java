@@ -8,19 +8,15 @@ package karel;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Scanner;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.Timer;
+
 
  /**
  *
@@ -33,7 +29,7 @@ public class Board extends JPanel {
     private final int TOP_COLLISION = 3;
     private final int BOTTOM_COLLISION = 4;
     private final int SPACE = 30;
-    private final int OFFSET = 10;
+    private final int OFFSET = 0;
     private final int TURN_LEFT=-1;
     private final int TURN_RIGHT=1;
     
@@ -48,16 +44,19 @@ public class Board extends JPanel {
     private boolean manualMode;
     private int boardHeight = 0;
     private int boardWidth = 0;
+    private int theme;
     
     
     /**
      * Constructor
      * @param file File name of the level
+     * @param th Theme of the actor
      */
-    public Board(String file) {
+    public Board(String file, int th) {
         completed = false;
         manualMode = true;
         crashed = false;
+        theme = th;
         setFocusable(true);
         setFileName(file);
         loadLevel();
@@ -156,24 +155,24 @@ public class Board extends JPanel {
             
             //creates wall and adds to list of walls on the board
             else if (item == '#') {
-                wall = new Wall(x, y);
+                wall = new Wall(x, y, theme);
                 walls.add(wall);
                 x+=SPACE;
             } 
             //creates gems and adds to list of gems
             else if (item == 'G') {
-                gem = new Gems(x, y);
+                gem = new Gems(x, y, theme);
                 gems.add(gem);
                 x+=SPACE;
             }
             //create home
             else if (item == 'H') {
-                home = new Home(x, y);
+                home = new Home(x, y, theme);
                 x+=SPACE;
             }
             //create the player
             else if (item == '@') {
-                karel = new Player(x, y);
+                karel = new Player(x, y, theme);
                 x+=SPACE;
             } 
             //add blanks to the world array for easy printing to the console
@@ -196,8 +195,17 @@ public class Board extends JPanel {
         world.add(home);
         world.add(karel);
         
-        g.setColor(new Color(128, 128, 255));
+        g.setColor(new Color(164, 221, 236));
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        
+        g.setColor(new Color(0,0,0));
+        for(int i=0;i<(boardWidth/30);i++){
+            g.drawLine(i*30, 0, i*30,boardHeight);
+        }
+
+        for(int i=0;i<(boardHeight/30);i++){
+            g.drawLine(0,i*30,boardWidth,i*30);
+        }
 
         for (int i = 0; i < world.size(); i++) {
             Actor item = (Actor) world.get(i);
@@ -214,11 +222,18 @@ public class Board extends JPanel {
                 g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
             }
             
+            else if((item instanceof Home)){
+               
+                g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
+            }
+            
             else{
                 g.drawImage(item.getImage(), item.x(), item.y(), this);
                 
             }
-            
+           
+        }//end for
+
             if (completed) {
                 URL loc = this.getClass().getResource("/karel/completed.png");
                 ImageIcon iia = new ImageIcon(loc);
@@ -238,7 +253,6 @@ public class Board extends JPanel {
                 //g.drawString("Completed", 25, 20);
                 g.drawImage(mage, this.getWidth()/24, this.getHeight()/12, this);
             }
-        }
        
     }
     
@@ -670,16 +684,24 @@ public class Board extends JPanel {
          manualMode = bool;
      }
      
-     private void pause(){
-         try{
-             Thread.sleep(400);
+     public void setTheme(int theme){
+        
+        for (int i = 0; i < walls.size(); i++) {
+            Wall item = (Wall) walls.get(i);
+            item.changeTheme(theme);
+        }
+        
+        for (int i = 0; i < gems.size(); i++) {
+            Gems item = (Gems) gems.get(i);
+            item.changeTheme(theme);
+        }
+        
+        home.changeTheme(theme);
+        karel.changeTheme(theme);
              
-         }
-         catch(InterruptedException e){
-             e.printStackTrace();
-         }
-         
      }
+     
+
         
         
 }

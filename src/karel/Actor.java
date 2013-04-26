@@ -15,15 +15,18 @@ public class Actor {
     private int x;
     private int y;
     private Image image;
+    private int theme;
 
     /**
      * Constructor
      * @param x Starting position on x axis
      * @param y Starting position on y axis
+     * @param th Theme of the actor
      */
-    public Actor(int x, int y) {
+    public Actor(int x, int y, int th) {
         this.x = x;
         this.y = y;
+        theme = th;
     }
 
     /**
@@ -129,5 +132,15 @@ public class Actor {
             return false;
         }
     }
+    
+    public int getThemeValue(){
+        return theme;
+    }
+    
+    protected void setThemeValue(int th){
+        theme = th;
+    }
+
+
 
 }

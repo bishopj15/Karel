@@ -8,13 +8,8 @@
 
 package karel;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+
 
 /**
  *
@@ -47,7 +42,7 @@ public class ProgrammerMode {
     
     
     public ProgrammerMode(String uCode, Board tempBoard){  
-        programBoard = new Board(tempBoard.getFileName());
+        programBoard = new Board(tempBoard.getFileName(), 0);
         UsersProgram = uCode;
         SetReservedWord();
         setSensors();

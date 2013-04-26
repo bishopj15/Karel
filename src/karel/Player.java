@@ -21,16 +21,11 @@ public class Player extends Actor {
      /**
      * @param x Starting position on x axis
      * @param y Starting position on y axis
+     * @param th Theme of the actor
      */
-    public Player(int x, int y) {
-        super(x, y);
-        
-        URL loc = this.getClass().getResource("/karel/player.jpg");
-        ImageIcon iia = new ImageIcon(loc);
-        Image image = iia.getImage();
-        this.setImage(image);
- 
-
+    public Player(int x, int y, int th) {
+        super(x, y, th);
+        determineImage(th);
         Direction=1;
         NumberOfGems=0;
     }
@@ -45,6 +40,7 @@ public class Player extends Actor {
         this.setX(nx);
         this.setY(ny);
     }
+    
     
     /**
      * Decreases the number of gems the player is carrying by one
@@ -103,33 +99,79 @@ public class Player extends Actor {
     }
     
     public void adjustPlayerImage(){
-        if(Direction == 1){
-            URL loc = this.getClass().getResource("/karel/player.jpg");
-            ImageIcon iia = new ImageIcon(loc);
-            Image image = iia.getImage();
-            this.setImage(image);
-        }
-        
-        else if(Direction == 2){
-            URL loc = this.getClass().getResource("/karel/player2.jpg");
-            ImageIcon iia = new ImageIcon(loc);
-            Image image = iia.getImage();
-            this.setImage(image);
-        }
-        
-        else if(Direction == 3){
-            URL loc = this.getClass().getResource("/karel/player3.jpg");
-            ImageIcon iia = new ImageIcon(loc);
-            Image image = iia.getImage();
-            this.setImage(image);
-        }
-        
-        else if(Direction == 4){
-            URL loc = this.getClass().getResource("/karel/player4.jpg");
-            ImageIcon iia = new ImageIcon(loc);
-            Image image = iia.getImage();
-            this.setImage(image);
-        }
+        switch(getThemeValue()){
+            case 0:
+                if(Direction == 1){
+                    ImageIcon iia = new ImageIcon("skins/default/player.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 2){
+                    ImageIcon iia = new ImageIcon("skins/default/player2.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 3){
+                    ImageIcon iia = new ImageIcon("skins/default/player3.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 4){
+                    ImageIcon iia = new ImageIcon("skins/default/player4.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+                break;
+                
+            case 1:
+                if(Direction == 1){
+                    ImageIcon iia = new ImageIcon("skins/mario/marioBack.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 2){
+                    ImageIcon iia = new ImageIcon("skins/mario/marioRight.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 3){
+                    ImageIcon iia = new ImageIcon("skins/mario/marioFront.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+
+                else if(Direction == 4){
+                    ImageIcon iia = new ImageIcon("skins/mario/marioLeft.png");
+                    Image image = iia.getImage();
+                    this.setImage(image);
+                }
+                break;
+            default:
+                break;
+        }//end switch 
     }
+    
+    private void determineImage(int thm){
+        if(thm == 1){
+            ImageIcon iia = new ImageIcon("skins/mario/marioBack.png");
+            Image image = iia.getImage();
+            this.setImage(image);
+        }
+        else{
+            ImageIcon iia = new ImageIcon("skins/default/player.png");
+            Image image = iia.getImage();
+            this.setImage(image);
+        }
+     }
+    
+    public void changeTheme(int th){
+         setThemeValue(th);
+         determineImage(th);
+     }
     
 }

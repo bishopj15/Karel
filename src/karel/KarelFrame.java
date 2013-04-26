@@ -1,33 +1,15 @@
 package karel;
 
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.List;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
 
@@ -38,7 +20,7 @@ import javax.swing.Timer;
  */
 public class KarelFrame extends javax.swing.JFrame {
     
-    private final int OFFSET = 10;
+    
 
     /**
      * Creates new form KarelFrame
@@ -63,7 +45,7 @@ public class KarelFrame extends javax.swing.JFrame {
         
         currentLevelName = "level.txt";
         
-        BoardPanel = new Board(currentLevelName);
+        BoardPanel = new Board(currentLevelName, theme);
         
         BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
         
@@ -92,7 +74,7 @@ public class KarelFrame extends javax.swing.JFrame {
             ExecuteButton.setEnabled(false);
             ActionPanel.remove(BoardPanel);
             ActionPanel.repaint();
-            BoardPanel = new Board(currentLevelName);
+            BoardPanel = new Board(currentLevelName, theme);
             BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
             BoardPanel.setManualMode(true);
             ActionPanel.add(BoardPanel, -1);
@@ -103,7 +85,7 @@ public class KarelFrame extends javax.swing.JFrame {
             ExecuteButton.setEnabled(true);
             ActionPanel.remove(BoardPanel);
             ActionPanel.repaint();
-            BoardPanel = new Board(currentLevelName);;
+            BoardPanel = new Board(currentLevelName, theme);;
             BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
             BoardPanel.setManualMode(false);
             ActionPanel.add(BoardPanel, -1);
@@ -156,7 +138,17 @@ public class KarelFrame extends javax.swing.JFrame {
         LevelMenu = new javax.swing.JMenu();
         LoadLevelMenuItem = new javax.swing.JMenuItem();
         RestartLevelMenuItem = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        MapsMenu = new javax.swing.JMenu();
+        Map1MenuItem = new javax.swing.JMenuItem();
+        Map2MenuItem = new javax.swing.JMenuItem();
+        Map3MenuItem = new javax.swing.JMenuItem();
+        Map4MenuItem = new javax.swing.JMenuItem();
+        Map5MenuItem = new javax.swing.JMenuItem();
+        Map6MenuItem = new javax.swing.JMenuItem();
+        FunMenu = new javax.swing.JMenu();
+        ThemeMenu = new javax.swing.JMenu();
+        DefaultMenuItem = new javax.swing.JMenuItem();
+        MarioMenuItem = new javax.swing.JMenuItem();
 
         CopyPopout.setText("Copy");
         CopyPopout.addActionListener(new java.awt.event.ActionListener() {
@@ -353,7 +345,7 @@ public class KarelFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        FileMenu.setText("File");
+        FileMenu.setText("Code");
 
         NewMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         NewMenuItem.setText("New");
@@ -435,7 +427,7 @@ public class KarelFrame extends javax.swing.JFrame {
 
         LevelMenu.setText("Level");
 
-        LoadLevelMenuItem.setText("Load");
+        LoadLevelMenuItem.setText("Load From File");
         LoadLevelMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LoadLevelMenuItemActionPerformed(evt);
@@ -451,10 +443,83 @@ public class KarelFrame extends javax.swing.JFrame {
         });
         LevelMenu.add(RestartLevelMenuItem);
 
-        jMenuItem3.setText("jMenuItem3");
-        LevelMenu.add(jMenuItem3);
+        MapsMenu.setText("Maps");
+
+        Map1MenuItem.setText("Map 1");
+        Map1MenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Map1MenuItemActionPerformed(evt);
+            }
+        });
+        MapsMenu.add(Map1MenuItem);
+
+        Map2MenuItem.setText("Map 2");
+        Map2MenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Map2MenuItemActionPerformed(evt);
+            }
+        });
+        MapsMenu.add(Map2MenuItem);
+
+        Map3MenuItem.setText("Map 3");
+        Map3MenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Map3MenuItemActionPerformed(evt);
+            }
+        });
+        MapsMenu.add(Map3MenuItem);
+
+        Map4MenuItem.setText("Map 4");
+        Map4MenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Map4MenuItemActionPerformed(evt);
+            }
+        });
+        MapsMenu.add(Map4MenuItem);
+
+        Map5MenuItem.setText("Map 5");
+        Map5MenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Map5MenuItemActionPerformed(evt);
+            }
+        });
+        MapsMenu.add(Map5MenuItem);
+
+        Map6MenuItem.setText("Map 6");
+        Map6MenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Map6MenuItemActionPerformed(evt);
+            }
+        });
+        MapsMenu.add(Map6MenuItem);
+
+        LevelMenu.add(MapsMenu);
 
         jMenuBar1.add(LevelMenu);
+
+        FunMenu.setText("Fun");
+
+        ThemeMenu.setText("Themes");
+
+        DefaultMenuItem.setText("Default");
+        DefaultMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DefaultMenuItemActionPerformed(evt);
+            }
+        });
+        ThemeMenu.add(DefaultMenuItem);
+
+        MarioMenuItem.setText("Mario");
+        MarioMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MarioMenuItemActionPerformed(evt);
+            }
+        });
+        ThemeMenu.add(MarioMenuItem);
+
+        FunMenu.add(ThemeMenu);
+
+        jMenuBar1.add(FunMenu);
 
         setJMenuBar(jMenuBar1);
 
@@ -675,6 +740,7 @@ public class KarelFrame extends javax.swing.JFrame {
               else{
                   i=0;
                   timer.stop();
+                  ExecuteButton.setEnabled(true);
               }
                 
             }
@@ -684,6 +750,7 @@ public class KarelFrame extends javax.swing.JFrame {
       
       
       if(!keyChars.isEmpty()){
+         ExecuteButton.setEnabled(false);
          timer.start();
        /*  for(int i=0; i<keyChars.size(); i++){
             pressAKey(keyChars.get(i));
@@ -699,6 +766,92 @@ public class KarelFrame extends javax.swing.JFrame {
         
          
     }//GEN-LAST:event_ExecuteButtonActionPerformed
+
+    private void Map1MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map1MenuItemActionPerformed
+        ActionPanel.remove(BoardPanel);
+        ActionPanel.repaint();
+        currentLevelName = "maps/grid1.txt";
+        BoardPanel = new Board(currentLevelName, theme);
+        BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
+        ActionPanel.add(BoardPanel, -1);
+        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+    }//GEN-LAST:event_Map1MenuItemActionPerformed
+
+    private void Map2MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map2MenuItemActionPerformed
+        ActionPanel.remove(BoardPanel);
+        ActionPanel.repaint();
+        currentLevelName = "maps/grid2.txt";
+        
+        BoardPanel = new Board(currentLevelName, theme);
+        
+        BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
+        
+        
+        ActionPanel.add(BoardPanel, -1);
+        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+    }//GEN-LAST:event_Map2MenuItemActionPerformed
+
+    private void Map3MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map3MenuItemActionPerformed
+        ActionPanel.remove(BoardPanel);
+        ActionPanel.repaint();
+        currentLevelName = "maps/grid3.txt";
+        
+        BoardPanel = new Board(currentLevelName, theme);
+        
+        BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
+
+        ActionPanel.add(BoardPanel, -1);
+        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+    }//GEN-LAST:event_Map3MenuItemActionPerformed
+
+    private void Map4MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map4MenuItemActionPerformed
+        ActionPanel.remove(BoardPanel);
+        ActionPanel.repaint();
+        currentLevelName = "maps/grid4.txt";
+        
+        BoardPanel = new Board(currentLevelName, theme);
+        
+        BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
+        
+        ActionPanel.add(BoardPanel, -1);
+        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+    }//GEN-LAST:event_Map4MenuItemActionPerformed
+
+    private void Map5MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map5MenuItemActionPerformed
+        ActionPanel.remove(BoardPanel);
+        ActionPanel.repaint();
+        currentLevelName = "maps/grid5.txt";
+        
+        BoardPanel = new Board(currentLevelName, theme);
+        
+        BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
+        
+        ActionPanel.add(BoardPanel, -1);
+        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+    }//GEN-LAST:event_Map5MenuItemActionPerformed
+
+    private void Map6MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map6MenuItemActionPerformed
+        ActionPanel.remove(BoardPanel);
+        ActionPanel.repaint();
+        currentLevelName = "maps/grid6.txt";
+        
+        BoardPanel = new Board(currentLevelName, theme);
+        
+        BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
+        
+        ActionPanel.add(BoardPanel, -1);
+        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+    }//GEN-LAST:event_Map6MenuItemActionPerformed
+
+    private void MarioMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MarioMenuItemActionPerformed
+        BoardPanel.setTheme(MARIO);
+        BoardPanel.repaint();
+    }//GEN-LAST:event_MarioMenuItemActionPerformed
+
+    private void DefaultMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DefaultMenuItemActionPerformed
+        BoardPanel.setTheme(DEFAULT);
+        BoardPanel.repaint();
+    }//GEN-LAST:event_DefaultMenuItemActionPerformed
 
     private void ProgrammingTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt){
         createNewPanel();
@@ -754,6 +907,10 @@ public class KarelFrame extends javax.swing.JFrame {
     ArrayList<Character> keyChars = new ArrayList();
     private Board BoardPanel;
     private Timer timer;
+    private final int OFFSET = 0;
+    private int theme = 0;
+    private final int MARIO = 1;
+    private final int DEFAULT = 0;
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -763,18 +920,28 @@ public class KarelFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem CopyPopout;
     private javax.swing.JMenuItem CutMenuItem;
     private javax.swing.JMenuItem CutPopout;
+    private javax.swing.JMenuItem DefaultMenuItem;
     private javax.swing.JMenuItem DeleteMenuItem;
     private javax.swing.JMenuItem DeletePopout;
     private javax.swing.JMenu EditMenu;
     private javax.swing.JPopupMenu EditPopupMenu;
     private javax.swing.JButton ExecuteButton;
     private javax.swing.JMenu FileMenu;
+    private javax.swing.JMenu FunMenu;
     private javax.swing.JButton GetButton;
     private javax.swing.JButton GoButton;
     private javax.swing.JButton LeftButton;
     private javax.swing.JMenu LevelMenu;
     private javax.swing.JMenuItem LoadLevelMenuItem;
     private javax.swing.JPanel ManualPanel;
+    private javax.swing.JMenuItem Map1MenuItem;
+    private javax.swing.JMenuItem Map2MenuItem;
+    private javax.swing.JMenuItem Map3MenuItem;
+    private javax.swing.JMenuItem Map4MenuItem;
+    private javax.swing.JMenuItem Map5MenuItem;
+    private javax.swing.JMenuItem Map6MenuItem;
+    private javax.swing.JMenu MapsMenu;
+    private javax.swing.JMenuItem MarioMenuItem;
     private javax.swing.JMenuItem NewMenuItem;
     private javax.swing.JMenuItem OpenMenuItem;
     private javax.swing.JMenuItem PasteMenuItem;
@@ -788,9 +955,9 @@ public class KarelFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem SaveAsMenuItem;
     private javax.swing.JMenuItem SaveMenuItem;
     private javax.swing.JPanel StatusBarPanel;
+    private javax.swing.JMenu ThemeMenu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

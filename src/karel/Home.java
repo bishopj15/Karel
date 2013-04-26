@@ -19,12 +19,9 @@ public class Home extends Actor {
      * @param x Starting position on x axis
      * @param y Starting position on y axis
      */
-     public Home(int x, int y) {
-        super(x, y);       
-        URL loc = this.getClass().getResource("/karel/home.png");
-        ImageIcon iia = new ImageIcon(loc);
-        Image image = iia.getImage();
-        this.setImage(image);
+     public Home(int x, int y, int th) {
+        super(x, y, th); 
+        determineImage(th);
         GemCounter=0;
     }
     
@@ -52,5 +49,24 @@ public class Home extends Actor {
          
          return GemCounter;
      }
+     
+     private void determineImage(int thm){
+        if(thm == 1){
+            ImageIcon iia = new ImageIcon("skins/mario/castle.png");
+            Image image = iia.getImage();
+            this.setImage(image);
+        }
+        else{
+            ImageIcon iia = new ImageIcon("skins/default/home.png");
+            Image image = iia.getImage();
+            this.setImage(image);
+        }
+     }
+     
+     public void changeTheme(int th){
+         setThemeValue(th);
+         determineImage(th);  
+     }
+        
 }
 
