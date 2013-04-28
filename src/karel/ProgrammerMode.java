@@ -109,7 +109,6 @@ public class ProgrammerMode {
             temp=instruction.get(i);
             tempStrArray = temp.split(" ");
             
-            
            // System.out.println(tempStrArray[0]);
             
             //loop through reserved words to find a match
@@ -658,7 +657,10 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
     public void Start(){
         if(!ErrorChecking())
         {
-            Execution(instruction, 0);
+            if(!instruction.isEmpty()){
+                Execution(instruction, 0);
+            }
+            
         }
 
      }

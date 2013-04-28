@@ -228,25 +228,25 @@ public class Player extends Actor {
                 break;
             default:
                 if(Direction == 1){
-                    ImageIcon iia = new ImageIcon("skins/default/player.png");
+                    ImageIcon iia = new ImageIcon("skins/default/robotNorth.png");
                     Image image = iia.getImage();
                     this.setImage(image);
                 }
 
                 else if(Direction == 2){
-                    ImageIcon iia = new ImageIcon("skins/default/player2.png");
+                    ImageIcon iia = new ImageIcon("skins/default/robotEast.png");
                     Image image = iia.getImage();
                     this.setImage(image);
                 }
 
                 else if(Direction == 3){
-                    ImageIcon iia = new ImageIcon("skins/default/player3.png");
+                    ImageIcon iia = new ImageIcon("skins/default/robotSouth.png");
                     Image image = iia.getImage();
                     this.setImage(image);
                 }
 
                 else if(Direction == 4){
-                    ImageIcon iia = new ImageIcon("skins/default/player4.png");
+                    ImageIcon iia = new ImageIcon("skins/default/robotWest.png");
                     Image image = iia.getImage();
                     this.setImage(image);
                 }

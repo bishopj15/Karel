@@ -1,0 +1,19 @@
+repeat 6
+	go
+	if gem
+		get
+	left
+	go
+	right
+go
+get
+repeat 6
+	go
+	right
+	go
+	if gem
+		get
+	left
+go
+while not empty
+	put

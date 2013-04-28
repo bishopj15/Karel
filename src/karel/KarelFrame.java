@@ -43,12 +43,12 @@ public class KarelFrame extends javax.swing.JFrame {
         GridLabel.setIcon(img);
      */ 
         
-        currentLevelName = "level.txt";
+        currentLevelName = "maps/grid6.txt";
+        jLabel1.setText("Map 6");
         
         BoardPanel = new Board(currentLevelName, theme);
         
         BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
-        
         //add(BoardPanel, -1);
         
         ActionPanel.add(BoardPanel, -1);
@@ -56,6 +56,7 @@ public class KarelFrame extends javax.swing.JFrame {
         
         ProgrammingTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
             
+            @Override
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 ProgrammingTabbedPaneStateChanged(evt);
             }
@@ -67,7 +68,26 @@ public class KarelFrame extends javax.swing.JFrame {
         
     }
     
-    private void createNewPanel(){
+    private void resetBoardPanel(){
+        int index = ProgrammingTabbedPane.getSelectedIndex();
+        
+        BoardPanel.restartLevel(true);
+        ActionPanel.repaint();
+        
+        if(index == 0){
+            ExecuteButton.setEnabled(false);
+            BoardPanel.setManualMode(true);
+            PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());    
+        }
+       
+        if(index == 1){
+            ExecuteButton.setEnabled(true);
+            BoardPanel.setManualMode(false);
+            PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());    
+        }
+    }
+    
+    public void createNewPanel(){
         int index = ProgrammingTabbedPane.getSelectedIndex();
         
         if(index == 0){
@@ -122,10 +142,13 @@ public class KarelFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         CodeTextArea = new javax.swing.JTextArea();
         ExecuteButton = new javax.swing.JButton();
+        StopButton = new javax.swing.JButton();
         StatusBarPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
+        QuitMenuItem = new javax.swing.JMenuItem();
+        CodeMenu = new javax.swing.JMenu();
         NewMenuItem = new javax.swing.JMenuItem();
         OpenMenuItem = new javax.swing.JMenuItem();
         SaveMenuItem = new javax.swing.JMenuItem();
@@ -156,6 +179,8 @@ public class KarelFrame extends javax.swing.JFrame {
         Batman = new javax.swing.JMenu();
         Batman1MenuItem = new javax.swing.JMenuItem();
         Batman2MenuItem = new javax.swing.JMenuItem();
+        HelpMenu = new javax.swing.JMenu();
+        AboutMenuItem = new javax.swing.JMenuItem();
 
         CopyPopout.setText("Copy");
         CopyPopout.addActionListener(new java.awt.event.ActionListener() {
@@ -306,6 +331,14 @@ public class KarelFrame extends javax.swing.JFrame {
             }
         });
 
+        StopButton.setText("Stop");
+        StopButton.setEnabled(false);
+        StopButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StopButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout ProgramPanelLayout = new javax.swing.GroupLayout(ProgramPanel);
         ProgramPanel.setLayout(ProgramPanelLayout);
         ProgramPanelLayout.setHorizontalGroup(
@@ -314,24 +347,32 @@ public class KarelFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(ProgramPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ProgrammingTabbedPane)
-                    .addComponent(jScrollPane2))
+                    .addComponent(jScrollPane2)
+                    .addGroup(ProgramPanelLayout.createSequentialGroup()
+                        .addComponent(ExecuteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(StopButton)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(ProgramPanelLayout.createSequentialGroup()
-                .addGap(87, 87, 87)
-                .addComponent(ExecuteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        ProgramPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {ExecuteButton, StopButton});
+
         ProgramPanelLayout.setVerticalGroup(
             ProgramPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ProgramPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ProgrammingTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ExecuteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(ProgramPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ExecuteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(StopButton))
                 .addGap(25, 25, 25)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
+
+        ProgramPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {ExecuteButton, StopButton});
 
         jLabel1.setText("jLabel1");
 
@@ -342,7 +383,7 @@ public class KarelFrame extends javax.swing.JFrame {
             .addGroup(StatusBarPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(674, Short.MAX_VALUE))
+                .addContainerGap(182, Short.MAX_VALUE))
         );
         StatusBarPanelLayout.setVerticalGroup(
             StatusBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -352,7 +393,19 @@ public class KarelFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        FileMenu.setText("Code");
+        FileMenu.setText("File");
+
+        QuitMenuItem.setText("Quit");
+        QuitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                QuitMenuItemActionPerformed(evt);
+            }
+        });
+        FileMenu.add(QuitMenuItem);
+
+        jMenuBar1.add(FileMenu);
+
+        CodeMenu.setText("Code");
 
         NewMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         NewMenuItem.setText("New");
@@ -361,7 +414,7 @@ public class KarelFrame extends javax.swing.JFrame {
                 NewMenuItemActionPerformed(evt);
             }
         });
-        FileMenu.add(NewMenuItem);
+        CodeMenu.add(NewMenuItem);
 
         OpenMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         OpenMenuItem.setText("Open");
@@ -370,7 +423,7 @@ public class KarelFrame extends javax.swing.JFrame {
                 OpenMenuItemActionPerformed(evt);
             }
         });
-        FileMenu.add(OpenMenuItem);
+        CodeMenu.add(OpenMenuItem);
 
         SaveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         SaveMenuItem.setText("Save");
@@ -379,7 +432,7 @@ public class KarelFrame extends javax.swing.JFrame {
                 SaveMenuItemActionPerformed(evt);
             }
         });
-        FileMenu.add(SaveMenuItem);
+        CodeMenu.add(SaveMenuItem);
 
         SaveAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         SaveAsMenuItem.setText("Save As");
@@ -388,9 +441,9 @@ public class KarelFrame extends javax.swing.JFrame {
                 SaveAsMenuItemActionPerformed(evt);
             }
         });
-        FileMenu.add(SaveAsMenuItem);
+        CodeMenu.add(SaveAsMenuItem);
 
-        jMenuBar1.add(FileMenu);
+        jMenuBar1.add(CodeMenu);
 
         EditMenu.setText("Edit");
 
@@ -576,6 +629,13 @@ public class KarelFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(FunMenu);
 
+        HelpMenu.setText("Help");
+
+        AboutMenuItem.setText("About");
+        HelpMenu.add(AboutMenuItem);
+
+        jMenuBar1.add(HelpMenu);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -750,7 +810,9 @@ public class KarelFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_LoadLevelMenuItemActionPerformed
 
     private void RestartLevelMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RestartLevelMenuItemActionPerformed
-        createNewPanel();
+        if(!timer.isRunning()){
+            resetBoardPanel();
+        }
     }//GEN-LAST:event_RestartLevelMenuItemActionPerformed
 
     private void GoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoButtonActionPerformed
@@ -785,18 +847,40 @@ public class KarelFrame extends javax.swing.JFrame {
         ActionListener taskPerformer = new ActionListener() {
              int i;
              
-            @Override
+           @Override
             public void actionPerformed(ActionEvent evt) {
-              if(!BoardPanel.checkCompleted()){
-                  BoardPanel.keyPressed(keyChars.get(i));
-                  PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
-                  i++;
-              }
-              else{
-                  i=0;
-                  timer.stop();
-                  ExecuteButton.setEnabled(true);
-              }
+                if(timer.isRunning()){
+                    if((!keyChars.isEmpty()) && (!BoardPanel.ReturnCrashState())){
+                        BoardPanel.keyPressed(keyChars.get(0));
+                        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+                        keyChars.remove(0);
+                    }
+                    else{
+                        timer.stop();
+                        keyChars.clear();
+                        if(BoardPanel.ReturnCrashState()){
+                            BoardPanel.SetCrashedState(false);
+                        }
+                        resetBoardPanel();
+                        ExecuteButton.setEnabled(true);
+                        StopButton.setEnabled(false);
+                        
+                    }
+                    
+                  /* 
+                    if((!BoardPanel.checkCompleted()) && (i<keyChars.size())){
+                        BoardPanel.keyPressed(keyChars.get(i));
+                        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+                        i++;
+                    }
+                    else{
+                        i=0;
+                        timer.stop();
+                        ExecuteButton.setEnabled(true);
+                    }
+                    */
+                    
+                }//end timer running if
                 
             }
         };
@@ -807,6 +891,7 @@ public class KarelFrame extends javax.swing.JFrame {
       if(!keyChars.isEmpty()){
          ExecuteButton.setEnabled(false);
          timer.start();
+         StopButton.setEnabled(true);
        /*  for(int i=0; i<keyChars.size(); i++){
             pressAKey(keyChars.get(i));
             
@@ -823,118 +908,98 @@ public class KarelFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ExecuteButtonActionPerformed
 
     private void Map1MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map1MenuItemActionPerformed
-        ActionPanel.remove(BoardPanel);
-        ActionPanel.repaint();
         currentLevelName = "maps/grid1.txt";
-        BoardPanel = new Board(currentLevelName, theme);
-        BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
-        ActionPanel.add(BoardPanel, -1);
-        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+        createNewPanel();
+        jLabel1.setText("Map 1");
     }//GEN-LAST:event_Map1MenuItemActionPerformed
 
     private void Map2MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map2MenuItemActionPerformed
-        ActionPanel.remove(BoardPanel);
-        ActionPanel.repaint();
         currentLevelName = "maps/grid2.txt";
-        
-        BoardPanel = new Board(currentLevelName, theme);
-        
-        BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
-        
-        
-        ActionPanel.add(BoardPanel, -1);
-        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+        createNewPanel();
+        jLabel1.setText("Map 2");
     }//GEN-LAST:event_Map2MenuItemActionPerformed
 
     private void Map3MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map3MenuItemActionPerformed
-        ActionPanel.remove(BoardPanel);
-        ActionPanel.repaint();
         currentLevelName = "maps/grid3.txt";
-        
-        BoardPanel = new Board(currentLevelName, theme);
-        
-        BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
-
-        ActionPanel.add(BoardPanel, -1);
-        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+        createNewPanel();
+        jLabel1.setText("Map 3");
     }//GEN-LAST:event_Map3MenuItemActionPerformed
 
     private void Map4MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map4MenuItemActionPerformed
-        ActionPanel.remove(BoardPanel);
-        ActionPanel.repaint();
         currentLevelName = "maps/grid4.txt";
-        
-        BoardPanel = new Board(currentLevelName, theme);
-        
-        BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
-        
-        ActionPanel.add(BoardPanel, -1);
-        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+        createNewPanel();
+        jLabel1.setText("Map 4");
     }//GEN-LAST:event_Map4MenuItemActionPerformed
 
     private void Map5MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map5MenuItemActionPerformed
-        ActionPanel.remove(BoardPanel);
-        ActionPanel.repaint();
         currentLevelName = "maps/grid5.txt";
-        
-        BoardPanel = new Board(currentLevelName, theme);
-        
-        BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
-        
-        ActionPanel.add(BoardPanel, -1);
-        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+        createNewPanel();
+        jLabel1.setText("Map 5");
     }//GEN-LAST:event_Map5MenuItemActionPerformed
 
     private void Map6MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map6MenuItemActionPerformed
-        ActionPanel.remove(BoardPanel);
-        ActionPanel.repaint();
         currentLevelName = "maps/grid6.txt";
-        
-        BoardPanel = new Board(currentLevelName, theme);
-        
-        BoardPanel.setSize((BoardPanel.getBoardWidth() + OFFSET), (BoardPanel.getBoardHeight() + OFFSET));
-        
-        ActionPanel.add(BoardPanel, -1);
-        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+        createNewPanel();
+        jLabel1.setText("Map 6");
     }//GEN-LAST:event_Map6MenuItemActionPerformed
 
     private void DefaultMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DefaultMenuItemActionPerformed
+        theme = DEFAULT;
         BoardPanel.setTheme(DEFAULT);
         BoardPanel.repaint();
     }//GEN-LAST:event_DefaultMenuItemActionPerformed
 
     private void Batman1MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Batman1MenuItemActionPerformed
+        theme = BATMAN1;
         BoardPanel.setTheme(BATMAN1);
         BoardPanel.repaint();
     }//GEN-LAST:event_Batman1MenuItemActionPerformed
 
     private void Batman2MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Batman2MenuItemActionPerformed
+        theme = BATMAN2;
         BoardPanel.setTheme(BATMAN2);
         BoardPanel.repaint();
     }//GEN-LAST:event_Batman2MenuItemActionPerformed
 
     private void MarioMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MarioMenuItemActionPerformed
+        theme = MARIO;
         BoardPanel.setTheme(MARIO);
         BoardPanel.repaint();
     }//GEN-LAST:event_MarioMenuItemActionPerformed
 
     private void LuigiMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LuigiMenuItemActionPerformed
+        theme = LUIGI;
         BoardPanel.setTheme(LUIGI);
         BoardPanel.repaint();
     }//GEN-LAST:event_LuigiMenuItemActionPerformed
 
     private void YoshiMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YoshiMenuItemActionPerformed
+        theme = YOSHI;
         BoardPanel.setTheme(YOSHI);
         BoardPanel.repaint();
     }//GEN-LAST:event_YoshiMenuItemActionPerformed
 
     private void ToadMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ToadMenuItemActionPerformed
+        theme = TOAD;
         BoardPanel.setTheme(TOAD);
         BoardPanel.repaint();
     }//GEN-LAST:event_ToadMenuItemActionPerformed
 
+    private void QuitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuitMenuItemActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_QuitMenuItemActionPerformed
+
+    private void StopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StopButtonActionPerformed
+        if(timer.isRunning()){
+            timer.stop();
+            resetBoardPanel();
+            ExecuteButton.setEnabled(true);
+            StopButton.setEnabled(false);
+        }
+    }//GEN-LAST:event_StopButtonActionPerformed
+
     private void ProgrammingTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt){
-        createNewPanel();
+        resetBoardPanel();
     }
     
     public JTextArea getInfoArea(){
@@ -999,10 +1064,12 @@ public class KarelFrame extends javax.swing.JFrame {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem AboutMenuItem;
     private javax.swing.JPanel ActionPanel;
     private javax.swing.JMenu Batman;
     private javax.swing.JMenuItem Batman1MenuItem;
     private javax.swing.JMenuItem Batman2MenuItem;
+    private javax.swing.JMenu CodeMenu;
     private javax.swing.JTextArea CodeTextArea;
     private javax.swing.JMenuItem CopyMenuItem;
     private javax.swing.JMenuItem CopyPopout;
@@ -1018,6 +1085,7 @@ public class KarelFrame extends javax.swing.JFrame {
     private javax.swing.JMenu FunMenu;
     private javax.swing.JButton GetButton;
     private javax.swing.JButton GoButton;
+    private javax.swing.JMenu HelpMenu;
     private javax.swing.JButton LeftButton;
     private javax.swing.JMenu LevelMenu;
     private javax.swing.JMenuItem LoadLevelMenuItem;
@@ -1040,11 +1108,13 @@ public class KarelFrame extends javax.swing.JFrame {
     private javax.swing.JPanel ProgramPanel;
     private javax.swing.JTabbedPane ProgrammingTabbedPane;
     private javax.swing.JButton PutButton;
+    private javax.swing.JMenuItem QuitMenuItem;
     private javax.swing.JMenuItem RestartLevelMenuItem;
     private javax.swing.JButton RightButton;
     private javax.swing.JMenuItem SaveAsMenuItem;
     private javax.swing.JMenuItem SaveMenuItem;
     private javax.swing.JPanel StatusBarPanel;
+    private javax.swing.JButton StopButton;
     private javax.swing.JMenu ThemeMenu;
     private javax.swing.JMenuItem ToadMenuItem;
     private javax.swing.JMenuItem YoshiMenuItem;

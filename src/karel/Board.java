@@ -640,6 +640,10 @@ public class Board extends JPanel {
          return crashed;
      }
      
+     public void SetCrashedState(boolean state){
+         crashed = state;
+     }
+     
          
      public String PlayerInfo(){
          String tempString = new String();
@@ -684,7 +688,8 @@ public class Board extends JPanel {
          manualMode = bool;
      }
      
-     public void setTheme(int theme){
+     public void setTheme(int thm){
+        theme = thm;
         
         for (int i = 0; i < walls.size(); i++) {
             Wall item = (Wall) walls.get(i);
