@@ -62,7 +62,7 @@ public class KarelFrame extends javax.swing.JFrame {
             }
         });
         
-        
+        timer = new Timer(500, null);
         setLocationRelativeTo(null);
         setTitle("Karel the Robot");
         
@@ -71,8 +71,8 @@ public class KarelFrame extends javax.swing.JFrame {
     private void resetBoardPanel(){
         int index = ProgrammingTabbedPane.getSelectedIndex();
         
-        BoardPanel.restartLevel(true);
-        ActionPanel.repaint();
+       // BoardPanel.restartLevel(true);
+       // ActionPanel.repaint();
         
         if(index == 0){
             ExecuteButton.setEnabled(false);
@@ -85,6 +85,7 @@ public class KarelFrame extends javax.swing.JFrame {
             BoardPanel.setManualMode(false);
             PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());    
         }
+        ActionPanel.repaint();
     }
     
     public void createNewPanel(){
@@ -794,6 +795,10 @@ public class KarelFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_PastePopoutActionPerformed
 
     private void LoadLevelMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadLevelMenuItemActionPerformed
+        if(timer.isRunning()){
+            clearTimer();
+        }
+        
         //Create a file chooser
         final JFileChooser chooser = new JFileChooser();
         
@@ -810,9 +815,10 @@ public class KarelFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_LoadLevelMenuItemActionPerformed
 
     private void RestartLevelMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RestartLevelMenuItemActionPerformed
-        if(!timer.isRunning()){
-            resetBoardPanel();
-        }
+        clearTimer();
+        BoardPanel.restartLevel(true);
+        PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+        
     }//GEN-LAST:event_RestartLevelMenuItemActionPerformed
 
     private void GoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoButtonActionPerformed
@@ -858,11 +864,10 @@ public class KarelFrame extends javax.swing.JFrame {
                     else{
                         timer.stop();
                         keyChars.clear();
-                        if(BoardPanel.ReturnCrashState()){
+                        /*if(BoardPanel.ReturnCrashState()){
                             BoardPanel.SetCrashedState(false);
-                        }
-                        resetBoardPanel();
-                        ExecuteButton.setEnabled(true);
+                        }*/
+                        ExecuteButton.setEnabled(false);
                         StopButton.setEnabled(false);
                         
                     }
@@ -901,43 +906,58 @@ public class KarelFrame extends javax.swing.JFrame {
       else{
           PlayerInfoTextArea.setText(pm.getErrorStatements());
       }
-        
-        
-        
-         
+   
     }//GEN-LAST:event_ExecuteButtonActionPerformed
 
     private void Map1MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map1MenuItemActionPerformed
+        if(timer.isRunning()){
+            clearTimer();
+        }
         currentLevelName = "maps/grid1.txt";
         createNewPanel();
         jLabel1.setText("Map 1");
     }//GEN-LAST:event_Map1MenuItemActionPerformed
 
     private void Map2MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map2MenuItemActionPerformed
+        if(timer.isRunning()){
+            clearTimer();
+        }
         currentLevelName = "maps/grid2.txt";
         createNewPanel();
         jLabel1.setText("Map 2");
     }//GEN-LAST:event_Map2MenuItemActionPerformed
 
     private void Map3MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map3MenuItemActionPerformed
+        if(timer.isRunning()){
+            clearTimer();
+        }
         currentLevelName = "maps/grid3.txt";
         createNewPanel();
         jLabel1.setText("Map 3");
     }//GEN-LAST:event_Map3MenuItemActionPerformed
 
     private void Map4MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map4MenuItemActionPerformed
+        if(timer.isRunning()){
+            clearTimer();
+        }
         currentLevelName = "maps/grid4.txt";
         createNewPanel();
         jLabel1.setText("Map 4");
     }//GEN-LAST:event_Map4MenuItemActionPerformed
 
     private void Map5MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map5MenuItemActionPerformed
+        if(timer.isRunning()){
+            clearTimer();
+        }
         currentLevelName = "maps/grid5.txt";
         createNewPanel();
         jLabel1.setText("Map 5");
     }//GEN-LAST:event_Map5MenuItemActionPerformed
 
     private void Map6MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Map6MenuItemActionPerformed
+        if(timer.isRunning()){
+            clearTimer();
+        }
         currentLevelName = "maps/grid6.txt";
         createNewPanel();
         jLabel1.setText("Map 6");
@@ -991,15 +1011,18 @@ public class KarelFrame extends javax.swing.JFrame {
 
     private void StopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StopButtonActionPerformed
         if(timer.isRunning()){
-            timer.stop();
-            resetBoardPanel();
-            ExecuteButton.setEnabled(true);
-            StopButton.setEnabled(false);
+            clearTimer();
         }
     }//GEN-LAST:event_StopButtonActionPerformed
 
     private void ProgrammingTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt){
-        resetBoardPanel();
+        if(timer.isRunning()){
+            //clearTimer();
+            resetBoardPanel();
+        }
+        else{
+            resetBoardPanel();
+        }
     }
     
     public JTextArea getInfoArea(){
@@ -1010,6 +1033,17 @@ public class KarelFrame extends javax.swing.JFrame {
         BoardPanel.keyPressed(key);
         PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
         
+    }
+    
+    /**
+     * Resets the ActionListener properties user to display proper movement and resets components on the main frame 
+     */
+    private void clearTimer(){
+        timer.stop();
+        keyChars.clear();
+        resetBoardPanel();
+        ExecuteButton.setEnabled(true);
+        StopButton.setEnabled(false);
     }
     /**
      * @param args the command line arguments

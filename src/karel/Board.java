@@ -102,6 +102,7 @@ public class Board extends JPanel {
             completed = false;
         }
         
+        
         if(!ManualRestart){
             //karal crashed so need to display this is a bad thing somewho
         }
@@ -235,23 +236,22 @@ public class Board extends JPanel {
         }//end for
 
             if (completed) {
-                URL loc = this.getClass().getResource("/karel/completed.png");
-                ImageIcon iia = new ImageIcon(loc);
+                ImageIcon iia = new ImageIcon("skins/others/complete.jpg");
                 Image mage = iia.getImage();
                 g.setColor(new Color(128, 128, 255));
                 g.fillRect(0, 0, this.getWidth(), this.getHeight());
-                g.drawImage(mage, this.getWidth()/8, this.getHeight()/4, this);   
+                g.drawImage(mage, 0, 0, this);   
             }
             
              if(crashed){
-                 URL loc = this.getClass().getResource("/karel/OHNO.png");
-                ImageIcon iia = new ImageIcon(loc);
+                ImageIcon iia = new ImageIcon("skins/others/error.png");
                 Image mage = iia.getImage();
                 //System.out.println("WIN");
                 g.setColor(new Color(128, 128, 255));
                 g.fillRect(0, 0, this.getWidth(), this.getHeight());
                 //g.drawString("Completed", 25, 20);
-                g.drawImage(mage, this.getWidth()/24, this.getHeight()/12, this);
+                g.drawImage(mage, 0, 0, this);
+                crashed = false;
             }
        
     }
