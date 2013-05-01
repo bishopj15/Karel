@@ -39,8 +39,6 @@ public class ProgrammerMode {
     private Board programBoard;
     private String ErrorStatements = "There was a error on line: ";
    
-    
-    
     public ProgrammerMode(String uCode, Board tempBoard){  
         programBoard = new Board(tempBoard.getFileName(), 0);
         UsersProgram = uCode;
@@ -109,14 +107,10 @@ public class ProgrammerMode {
             temp=instruction.get(i);
             tempStrArray = temp.split(" ");
             
-           // System.out.println(tempStrArray[0]);
-            
             //loop through reserved words to find a match
             for(int j=0;j<reserved.length;j++){
-               //System.out.println(tempStrArray[0]);
                 if(tempStrArray[0].endsWith(reserved[j]))
                 {
-                    //System.out.println(tempStrArray[0]);
                     if(tempStrArray[0].endsWith(IF)) {  
                         Error = errorCheckIfStatement(tempStrArray, line);
                     }
@@ -275,7 +269,6 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
             ErrorStatements = ErrorStatements.concat(line + "\n");
             ErrorStatements = ErrorStatements.concat("Too many argument");
         }
-        
         return Error;
     }
     
@@ -288,15 +281,9 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
       int tabCount = tCount;
       boolean usedIF = false;
       boolean encounteredIF = false;
-      
-     // System.out.println(instr.get(0));
-       
       while(i <instr.size() && !programBoard.ReturnCrashState()){
         String instruct=instr.get(i);
         String [] tempStrArray = instruct.split(" ");
-        //System.out.println(instruct);
-        
-        
         if(tempStrArray[0].endsWith(TURNLEFT)){
             keyInstructions.add('a');
             programBoard.keyPressed('a');
@@ -339,9 +326,6 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
                  tab = tab.concat("\t");
                 
             }
-            
-            
-
             while( temp.startsWith(tab) ){
                 ifInstructions.add(temp);
                 x++;
@@ -439,12 +423,7 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
                     tabCount--;
                 }
             }
-            
-            
-            
-            
             i=x;
-            
         }
         
         
@@ -454,14 +433,10 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
             int x = i+1;
             String temp = instr.get(x);
             String tab = new String();
-            //System.out.println("temp=" +temp + "  tabCount =" + tabCount);
             for(int r=0; r<tabCount; r++){
                 tab = tab.concat("\t");
                 
             }
-            
-            
-
             while( temp.startsWith(tab) ){
                 elseInstructions.add(temp);
                 x++;
@@ -484,11 +459,6 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
             tabCount--;
             
         }
-        
-        
-        
-        
-        
         else if(tempStrArray[0].endsWith(REPEAT)){
             
             tabCount++;
@@ -500,8 +470,6 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
             for(int r=0; r<tabCount; r++){
                 tab = tab.concat("\t"); 
             }
-            
-            
             while( (temp.startsWith(tab)) ){
                 
                 rInstructions.add(temp);
@@ -509,19 +477,14 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
                 if (x >= instr.size()){
                     break;
                 }
-                
                 temp = instr.get(x);
             }
-            
-            
-            
             int counter = Integer.parseInt(tempStrArray[1]);
             for( int h=0; h<counter ; h++){
                 Execution(rInstructions, tabCount);
             }
             i = x;
             tabCount--; 
-             
         }
         
         else if(tempStrArray[0].endsWith(WHILE)){ //not complete. only runs one time
@@ -530,14 +493,10 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
             int x = i+1;
             String temp = instr.get(x);
             String tab = new String();
-            //System.out.println("temp=" +temp + "  tabCount =" + tabCount);
             for(int r=0; r<tabCount; r++){
                 tab = tab.concat("\t");
                 
             }
-            
-            
-
             while( temp.startsWith(tab) ){
                 ifInstructions.add(temp);
                 x++;
@@ -545,9 +504,7 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
                     break;
                 }
                 temp = instr.get(x); 
-                
-                
-            }
+                }
             
             if(tempStrArray[1].equals(NOT)){
                 
@@ -628,22 +585,14 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
                     tabCount--;
                 }
             }
-            
-            
-            
-            
             i=x;
-            
         }
         
-        
-        
-      }
+        }
 
     }
     
-    
-    public ArrayList<Character> getKeyInstructions(){
+     public ArrayList<Character> getKeyInstructions(){
         return keyInstructions;
     }
     
@@ -664,5 +613,4 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
         }
 
      }
-
 }
