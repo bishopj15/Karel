@@ -196,7 +196,11 @@ public class Board extends JPanel {
         world.add(home);
         world.add(karel);
         
-        g.setColor(new Color(164, 221, 236));
+        g.setColor(new Color(127, 127, 127));
+        if (theme == 1 || theme == 4 || theme == 5 || theme == 6)
+        {
+            g.setColor(new Color(54,139,67));
+        }
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
         
         g.setColor(new Color(0,0,0));
