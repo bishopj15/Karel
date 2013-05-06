@@ -634,6 +634,11 @@ public class KarelFrame extends javax.swing.JFrame {
         HelpMenu.setText("Help");
 
         AboutMenuItem.setText("About");
+        AboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AboutMenuItemActionPerformed(evt);
+            }
+        });
         HelpMenu.add(AboutMenuItem);
 
         jMenuBar1.add(HelpMenu);
@@ -1017,6 +1022,15 @@ public class KarelFrame extends javax.swing.JFrame {
             setManualButtons(true);
         }
     }//GEN-LAST:event_StopButtonActionPerformed
+
+    private void AboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutMenuItemActionPerformed
+           try {  
+                Runtime.getRuntime().exec("notepad.exe " + "info.txt");  
+                }  
+              catch(Exception e) {  
+                e.printStackTrace();          
+                }  
+    }//GEN-LAST:event_AboutMenuItemActionPerformed
 
     private void ProgrammingTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt){
         if(!timer.isRunning()){
