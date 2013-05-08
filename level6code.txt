@@ -15,5 +15,3 @@ repeat 6
 		get
 	left
 go
-while not empty
-	put
