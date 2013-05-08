@@ -77,6 +77,7 @@ public class KarelFrame extends javax.swing.JFrame {
         if(index == 0){
             ExecuteButton.setEnabled(false);
             BoardPanel.setManualMode(true);
+            setManualButtons(true);
             PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());    
         }
        
@@ -897,6 +898,7 @@ public class KarelFrame extends javax.swing.JFrame {
          ExecuteButton.setEnabled(false);
          timer.start();
          StopButton.setEnabled(true);
+         setManualButtons(false);
        /*  for(int i=0; i<keyChars.size(); i++){
             pressAKey(keyChars.get(i));
             
@@ -1012,15 +1014,12 @@ public class KarelFrame extends javax.swing.JFrame {
     private void StopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StopButtonActionPerformed
         if(timer.isRunning()){
             clearTimer();
+            setManualButtons(true);
         }
     }//GEN-LAST:event_StopButtonActionPerformed
 
     private void ProgrammingTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt){
-        if(timer.isRunning()){
-            //clearTimer();
-            resetBoardPanel();
-        }
-        else{
+        if(!timer.isRunning()){
             resetBoardPanel();
         }
     }
@@ -1032,6 +1031,15 @@ public class KarelFrame extends javax.swing.JFrame {
     private void pressAKey(char key){
         BoardPanel.keyPressed(key);
         PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
+        
+    }
+    
+    private void setManualButtons(boolean b){
+        GoButton.setEnabled(b);
+        GetButton.setEnabled(b);
+        PutButton.setEnabled(b);
+        LeftButton.setEnabled(b);
+        RightButton.setEnabled(b);
         
     }
     

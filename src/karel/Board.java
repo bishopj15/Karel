@@ -388,7 +388,7 @@ public class Board extends JPanel {
      public void isCompleted(){
          if(karel.ReturnGemCount() == gems.size() && 
            (karel.x() == home.x() && karel.y() == home.y())
-            ){
+           ){
              completed = true;
          }
          else{
