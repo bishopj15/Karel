@@ -107,7 +107,6 @@ public class ProgrammerMode {
             temp=instruction.get(i);
             tempStrArray = temp.split(" ");
             tempStrArray[0] = tempStrArray[0].trim();
-            System.out.println(tempStrArray[0]);
             
             //loop through reserved words to find a match
             for(int j=0;j<reserved.length;j++){
