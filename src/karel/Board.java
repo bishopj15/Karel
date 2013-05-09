@@ -12,7 +12,6 @@ import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -100,6 +99,10 @@ public class Board extends JPanel {
         //reset completed variable
         if(completed){
             completed = false;
+        }
+        
+        if(crashed){
+            crashed = false;
         }
         
         
@@ -248,6 +251,7 @@ public class Board extends JPanel {
             }
             
              if(crashed){
+                
                 ImageIcon iia = new ImageIcon("skins/others/error.png");
                 Image mage = iia.getImage();
                 //System.out.println("WIN");
@@ -255,7 +259,6 @@ public class Board extends JPanel {
                 g.fillRect(0, 0, this.getWidth(), this.getHeight());
                 //g.drawString("Completed", 25, 20);
                 g.drawImage(mage, 0, 0, this);
-                crashed = false;
             }
        
     }
@@ -325,7 +328,7 @@ public class Board extends JPanel {
      public void keyPressed(char key) {
             
          //dont do anything if the level is complete 
-            if (completed) {
+            if (completed || crashed) {
                 return;
             }
             
@@ -386,6 +389,7 @@ public class Board extends JPanel {
       * Sets completed variable to true is all gems have been moved to home
       */
      public void isCompleted(){
+
          if(karel.ReturnGemCount() == gems.size() && 
            (karel.x() == home.x() && karel.y() == home.y())
            ){
@@ -424,7 +428,7 @@ public class Board extends JPanel {
                     case 1://trying to move north
                         if (checkWallCollision(karel, TOP_COLLISION)) {
                             crashed=true;
-                            restartLevel(false);
+                            //restartLevel(false);
                             return;
                         }
                         else{  
@@ -437,7 +441,7 @@ public class Board extends JPanel {
                     case 2://trying to move east
                         if(checkWallCollision(karel, RIGHT_COLLISION)) {
                             crashed=true;
-                            restartLevel(false);
+                            //restartLevel(false);
                             return;
                         }
                         else{
@@ -450,7 +454,7 @@ public class Board extends JPanel {
                     case 3://trying to move south
                         if (checkWallCollision(karel, BOTTOM_COLLISION)) {
                             crashed=true;
-                            restartLevel(false);
+                            //restartLevel(false);
                             return;
                         }
                         else{
@@ -462,7 +466,7 @@ public class Board extends JPanel {
                     case 4://trying to move west
                         if (checkWallCollision(karel, LEFT_COLLISION)) {
                             crashed=true;
-                            restartLevel(false);
+                            //restartLevel(false);
                             return;
                         }
                         else{
@@ -615,6 +619,10 @@ public class Board extends JPanel {
                 return state;
      }
      
+     /**
+      * Checks if player is carrying gems
+      * @return True if the player is carrying zero gems
+      */
      public boolean emptySensor(){
          if(karel.ReturnGemCount() == 0){
              return true;
@@ -624,6 +632,10 @@ public class Board extends JPanel {
          }
      }
      
+     /**
+      * Checks if player is facing north
+      * @return True if the player is facing north
+      */
      public boolean northSensor(){
          if(karel.ReturnDirection() == 1){
              return true;
@@ -633,6 +645,10 @@ public class Board extends JPanel {
          }
      }
      
+     /**
+      * Checks if player is on the home space
+      * @return True if the player is on the home space
+      */
      public boolean homeSensor(){
          if( (karel.x() == home.x()) && (karel.y() == home.y())){
              return true;
@@ -642,15 +658,25 @@ public class Board extends JPanel {
          }
      }
      
+     /**
+      * Checks the player state on the board
+      * @return True if the board is in a crashed state
+      */
      public boolean ReturnCrashState(){
          return crashed;
      }
      
+     /**
+      * Sets the crashed state of the board
+      */
      public void SetCrashedState(boolean state){
          crashed = state;
      }
      
-         
+     /**
+      * Creates a string of information relating to the players conditions on the board 
+      * @return Information relating to the player's conditions
+      */    
      public String PlayerInfo(){
          String tempString = new String();
          int n = 0;
@@ -690,10 +716,18 @@ public class Board extends JPanel {
             return tempString;
      }
      
+     /**
+      * Set if the board should operate in Manual mode
+      * @param bool State board should operate in 
+      */
      public void setManualMode(boolean bool){
          manualMode = bool;
      }
-     
+    
+     /**
+      * Set the display them to be used
+      * @param thm Theme the board to be set to
+      */
      public void setTheme(int thm){
         theme = thm;
         
