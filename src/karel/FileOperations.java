@@ -21,26 +21,49 @@ public class FileOperations {
         fileName = curFile;
     }
     
+    /**
+     * Sets the name of the file being opened or saved
+     * @param name Name of file
+     */
     public void setFileName(String name){
         fileName = name;
     }
     
+    /**
+     * Text to be saved to the file
+     * @param data 
+     */
     public void setFileData(String data){
         fileData = data;
     }
     
-    public String getFileName(String name){
+    /**
+     * Gets the name of the file
+     * @return Name of the file 
+     */
+    public String getFileName(){
         return fileName;
     }
     
-    public String getFileData(String data){
+    /**
+     * Gets the data from the file
+     * @return String of characters from the file 
+     */
+    public String getFileData(){
         return fileData;
     }
     
+    /**
+     * Writes FileData to FileName location as a text file 
+     */
     public void save(){
-
+        
+        if(!fileName.endsWith(".txt")){
+            fileName = fileName.concat(".txt");
+        }
+        
         try{
-            BufferedWriter bw = new BufferedWriter(new FileWriter(fileName + ".txt"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
             bw.write(fileData);
             bw.close();
             } catch(IOException e){
@@ -48,7 +71,10 @@ public class FileOperations {
             }
        } 
 
-    
+    /**
+     * Reads data from the file located at the FileName location 
+     * @return Data from the file
+     */
     public String open(){
          String tempString = new String();
          String info = new String();
