@@ -8,7 +8,6 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
@@ -805,7 +804,7 @@ public class KarelFrame extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent evt) {
                 if(timer.isRunning()){
                     if((!keyChars.isEmpty()) && (!BoardPanel.ReturnCrashState())){
-                        BoardPanel.keyPressed(keyChars.get(0));
+                        pressAKey(keyChars.get(0));
                         PlayerInfoTextArea.setText(BoardPanel.PlayerInfo());
                         keyChars.remove(0);
                     }
@@ -957,14 +956,14 @@ public class KarelFrame extends javax.swing.JFrame {
 
     private void ProgrammingTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt){
         if(!timer.isRunning()){
-            resetBoardPanel();
+            resetBoardPanelComponents();
         }
     }
     
     /**
      * Resets the UI to the correct state depending on which tab is selected
      */ 
-    private void resetBoardPanel(){
+    private void resetBoardPanelComponents(){
         int index = ProgrammingTabbedPane.getSelectedIndex();
 
         if(index == 0){
@@ -1048,7 +1047,7 @@ public class KarelFrame extends javax.swing.JFrame {
     private void clearTimer(){
         timer.stop();
         keyChars.clear();
-        resetBoardPanel();
+        resetBoardPanelComponents();
         if(BoardPanel.isManualMode()){
             ExecuteButton.setEnabled(false);
             StopButton.setEnabled(false);

@@ -388,7 +388,7 @@ public class Board extends JPanel {
      /**
       * Sets completed variable to true is all gems have been moved to home
       */
-     public void isCompleted(){
+     private void isCompleted(){
 
          if(karel.ReturnGemCount() == gems.size() && 
            (karel.x() == home.x() && karel.y() == home.y())
