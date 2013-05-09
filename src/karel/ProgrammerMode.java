@@ -106,24 +106,26 @@ public class ProgrammerMode {
             Error=true;
             temp=instruction.get(i);
             tempStrArray = temp.split(" ");
+            tempStrArray[0] = tempStrArray[0].trim();
+            System.out.println(tempStrArray[0]);
             
             //loop through reserved words to find a match
             for(int j=0;j<reserved.length;j++){
-                if(tempStrArray[0].endsWith(reserved[j]))
+                if(tempStrArray[0].equals(reserved[j]))
                 {
-                    if(tempStrArray[0].endsWith(IF)) {  
+                    if(tempStrArray[0].equals(IF)) {  
                         Error = errorCheckIfStatement(tempStrArray, line);
                     }
                     
-                    else if(tempStrArray[0].endsWith(REPEAT)){   
+                    else if(tempStrArray[0].equals(REPEAT)){   
                         Error = errorCheckRepeatStatement(tempStrArray, line);
                     }
                     
-                    else if(tempStrArray[0].endsWith(WHILE)){
+                    else if(tempStrArray[0].equals(WHILE)){
                         Error = errorCheckWhileStatement(tempStrArray, line);
                     }
                     
-                    else if(tempStrArray[0].endsWith(ELSE)){
+                    else if(tempStrArray[0].equals(ELSE)){
                         Error = errorCheckElseStatement(tempStrArray, line);
                     }
                     
