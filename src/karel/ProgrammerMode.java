@@ -45,8 +45,7 @@ public class ProgrammerMode {
         SetReservedWord();
         setSensors();
         ConvertToArrayList();
-        
-    }
+}
     
     /**
      * Set reserved words in a string array.
@@ -127,6 +126,14 @@ public class ProgrammerMode {
                     else if(tempStrArray[0].equals(ELSE)){
                         Error = errorCheckElseStatement(tempStrArray, line);
                     }
+                    //This is nasty,but needs to be done because be are checking for garbge. 99
+                    else if((tempStrArray[0].endsWith(FORWARD))||(tempStrArray[0].endsWith(TURNLEFT))
+                            ||(tempStrArray[0].endsWith(TURNRIGHT))||(tempStrArray[0].endsWith(TURNRIGHT))
+                            ||(tempStrArray[0].endsWith(PLACE))||(tempStrArray[0].endsWith(PICKUP))){
+                        
+                        Error = errorgoStatement(tempStrArray, line);
+                    }
+                    
                     
                     else{
                         Error = false;
@@ -157,7 +164,46 @@ public class ProgrammerMode {
        else{
            return false;
        }
-    }
+    }    
+    
+//Checks if there is a extra instruction on the line with GO
+//if there is it prints out a error message and return a error boolean
+private boolean errorgoStatement(String[] Statement, int line){
+     boolean Error = true;
+     if(Statement.length>1)
+     {
+         ErrorStatements = ErrorStatements.concat(line + "\n");
+         ErrorStatements = ErrorStatements.concat("Too many instructions.");
+     }
+     else if((!(Statement[0].equals(TURNRIGHT)))&&(!(Statement[0].equals("\t"+TURNRIGHT))) ){
+            
+            Error=true;
+            }
+        else if((!(Statement[0].equals(TURNLEFT)))&&(!(Statement[0].equals("\t"+TURNLEFT))) ){
+            
+            Error=true;
+            }
+         else if((!(Statement[0].equals(FORWARD)))&&(!(Statement[0].equals("\t"+FORWARD))) ){
+            
+            Error=true;
+            }
+         else if((!(Statement[0].equals(PLACE)))&&(!(Statement[0].equals("\t"+PLACE))) ){
+            
+            Error=false;
+            }
+          else if((!(Statement[0].equals(TURNLEFT)))&&(!(Statement[0].equals("\t"+TURNLEFT))) ){
+            
+            Error=false;
+            }
+          else if((!(Statement[0].equals(PICKUP)))&&(!(Statement[0].equals("\t"+PICKUP))) ){
+            
+            Error=false;
+            }
+     else{
+         Error=false;
+     }
+     return Error;
+}
     
     
 private boolean errorCheckIfStatement(String[] Statement, int line){
@@ -266,7 +312,9 @@ private boolean errorCheckIfStatement(String[] Statement, int line){
         if (Statement.length == 1 ){
             Error = false;
         }
-        else{
+        
+        if(Error==true)
+        {
             ErrorStatements = ErrorStatements.concat(line + "\n");
             ErrorStatements = ErrorStatements.concat("Too many argument");
         }
