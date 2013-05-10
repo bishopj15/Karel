@@ -1,0 +1,87 @@
+﻿Karel the Great Moving Robot
+
+
+1.) Introduction
+
+
+Karel is a user created program that allows users to move a robotic avatar inside a map.   Karel the robot has to find all the required “gem’s” to complete a level.  The simplified goal of Karel is to allow the user to code in a simplified manner, to help teach them how to plan, use algorithms, and reach a goal.  
+The reason why we worked on Karel was to provide a fun, and enjoyable way to teach programming.  We also took on this project for our undergraduate study at Concord University, in the class of Java, Software Engineering.
+Karel The Great Moving Robot, was programmed by a group students at Concord University: Mark Ellison, James Bishop, Miranda Martin, Chris Malon, and Will Stella.  Each person had different responsibilities and duties for creating this program.
+
+
+2.) The Objective of Doing Karel
+
+
+        The overall objective for creating Karel was to allow user’s to practice their programming skills.  To win the game, the user has to have basic knowledge of planning, algorithms, and move commands.  Karel teaches them how to plan, and to show that if you rush into an objectile, you will crash (quite literally).  Karel is but a guide, and example of what you can use with efficient programming.
+
+
+3.) The Karel Environment
+
+
+        Karel is a 2-dimensional game-based program that portrays Karel making her way through the level.  The level consists of certain items such as walls, gems, the avatar, home base.  We have implemented two-different types of user environments, Programmer Mode, and Manual Mode.  Karel has to be designated a direction to move before she accelerates/moves to a different block.  Before a user/player can complete the level, he/she has to find all the gems, pick them up   We do have a losing condition, such as hitting a wall, or have incorrect coding.  
+        
+Manual mode provides buttons for the users to move Karel through the level.  Manual Mode’s main goal is to educate the user by associating code with our move functions (buttons).  
+In manual mode the sideboard has five buttons with the name:
+        
+Programming mode is the other method of moving Karel, instead of using buttons we provide the user/player to use their own move statements, and to implement algorithms.  
+
+
+The Map is of course used in our program to allow Karel to move freely, and complete her goals.  There are 6 pre-made maps.  Users have the ability to create custom maps. All custom maps should be no bigger than 19 spaces across and 14 down. The map should be encompassed by a wall. At least one gem should be present on the map.  Only one instance of Karel should be present on the map.  Only one instance of home should be on the map.
+
+
+
+
+‘# ‘ - Wall
+‘@’ - Karel
+‘G’ - Gem
+‘H’ - Home
+Example Map
+
+
+
+
+#################
+#               #
+#               #
+#               #
+#               #
+#               #
+#               #
+#       G       #
+#      G#G      #
+#     G###G     #
+#    G#####G    #
+#   G#######G   #
+#  G#########G  #
+#@G###########GH#
+#################
+
+
+
+
+
+
+
+
+4.) Overview
+
+
+        From completing Karel, we hope that you/the user improved your programming skills, and learned how to plan and implement algorithms.  
+
+
+5.) Resources
+
+
+Some of the resources we used to help smooth things over, and make the world easier for us was the use of:
+
+
+Github
+facebook
+Google Docs
+        
+
+
+6.)  Conclusion
+
+
+We hope that you had fun and learned something new from reading this document, and playing through our Karel program.

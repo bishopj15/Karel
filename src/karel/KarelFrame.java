@@ -1,5 +1,6 @@
 package karel;
 
+import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.event.ActionEvent;
@@ -961,7 +962,7 @@ public class KarelFrame extends javax.swing.JFrame {
 
     private void AboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutMenuItemActionPerformed
            try {  
-                Runtime.getRuntime().exec("notepad.exe " + "info.txt");  
+                Desktop.getDesktop().open(new File("KarelMainDocu.txt"));
                 }  
               catch(Exception e) {  
                 e.printStackTrace();          
